@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1051387546188",
+    "firebase_url": "https://anytimetutor-97770.firebaseio.com",
+    "project_id": "anytimetutor-97770",
+    "storage_bucket": "anytimetutor-97770.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1051387546188:android:4b4c6dbd46cf442c1c42e9",
+        "android_client_info": {
+          "package_name": "com.example.anytimetutor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1051387546188-if8p4ddk1mlc1d71l6n6jamovnk4b6sh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.anytimetutor",
+            "certificate_hash": "612530f673ec384deff719e55724b9af5b3d75f6"
+          }
+        },
+        {
+          "client_id": "1051387546188-geqoulsuk84pe730qa8ussuk0lkisph9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBC0qgLTrcvymNke6nPGOiBHjl-UM73DdE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1051387546188-geqoulsuk84pe730qa8ussuk0lkisph9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

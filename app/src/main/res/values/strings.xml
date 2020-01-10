@@ -1,0 +1,98 @@
+<resources>
+
+    <string name="title_activity_welcome">Home Screen</string>
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+
+    <string name="app_name">AnyTimeTutor</string>
+    <string name="title_activity_studenthomepage">studenthomepage</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
+
+    <string-array name="years">
+        <item>Select year</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string-array name="college_names">
+        <item>Select college</item>
+        <item>MPSTME</item>
+        <item>SBM</item>
+        <item>SBMP</item>
+        <item>NM College</item>
+        <item>Mithibai College</item>
+    </string-array>
+
+    <string-array name="courses">
+        <item>Select course</item>
+        <item>BTech</item>
+        <item>MBATech</item>
+        <item>Junior College</item>
+        <item>BTech Integrated</item>
+        <item>MBA</item>
+    </string-array>
+
+    <string-array name="streams">
+        <item>Select stream</item>
+        <item>Computer</item>
+        <item>IT</item>
+        <item>Civil</item>
+        <item>Mechanical</item>
+        <item>Chemical</item>
+    </string-array>
+
+    <string-array name="items_array_expandable_level_one">
+        <item>Coding</item>
+        <item>Theory</item>
+        <item>Competitive Exams</item>
+    </string-array>
+    <string-array name="items_array_expandable_level_one_one_child">
+        <item>Web Development</item>
+        <item>Android App Development</item>
+        <item>Python</item>
+    </string-array>
+    <string-array name="items_array_expandable_level_one_two_child">
+        <item>DSA</item>
+        <item>SS</item>
+        <item>COA</item>
+    </string-array>
+    <string-array name="items_array_expandable_level_one_three_child">
+        <item>NPAT</item>
+        <item>NMAT</item>
+        <item>CAT</item>
+    </string-array>
+    <string-array name="items_array_expandable_level_one_child_one">
+        <item>HTML</item>
+        <item>CSS</item>
+        <item>JS</item>
+    </string-array>
+    <string-array name="items_array_expandable_level_one_child_two">
+        <item>Basic</item>
+        <item>Firebase</item>
+        <item>Kotlin</item>
+    </string-array>
+    <string-array name="items_array_expandable_level_three">
+        <item>SubTopic 1</item>
+        <item>SubTopic 2</item>
+        <item>SubTopic 3</item>
+    </string-array>
+
+    <string name="title_activity_student_home">StudentHomeActivity</string>
+    <string name="title_activity_student_home_page">StudentHomePage</string>
+</resources>
