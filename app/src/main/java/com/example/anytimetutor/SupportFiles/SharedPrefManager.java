@@ -18,6 +18,7 @@ public class SharedPrefManager {
     private static final String KEY_USERNAME = "keyusername";
     private static final String KEY_EMAIL = "keyemail";
     private static final String KEY_ID = "keyid";
+    private static final String KEY_SCAN_STATUS = "keyscanstatus";
 
     private static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
 
@@ -58,6 +59,7 @@ public class SharedPrefManager {
         editor.putString(KEY_ID, user.getId());
         editor.putString(KEY_USERNAME, user.getUsername());
         editor.putString(KEY_EMAIL, user.getEmail());
+        editor.putString(KEY_SCAN_STATUS, user.getScanStatus());
         editor.apply();
     }
 
@@ -73,7 +75,8 @@ public class SharedPrefManager {
         return new User(
                 sharedPreferences.getString(KEY_ID,  null),
                 sharedPreferences.getString(KEY_USERNAME, null),
-                sharedPreferences.getString(KEY_EMAIL, null)
+                sharedPreferences.getString(KEY_EMAIL, null),
+                sharedPreferences.getString(KEY_SCAN_STATUS, "0")
         );
     }
 

@@ -116,7 +116,8 @@ public class MainActivity extends AppCompatActivity {
                                 User user = new User(
                                         userJson.getString("sap_id"),
                                         userJson.getString("first_name"),
-                                        userJson.getString("email")
+                                        userJson.getString("email"),
+                                        userJson.getString("scan_status")
                                 );
 
                                 //storing the user in shared preferences

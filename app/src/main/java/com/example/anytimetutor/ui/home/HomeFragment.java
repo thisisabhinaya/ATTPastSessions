@@ -21,6 +21,8 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.anytimetutor.ScannerActivity;
 import com.example.anytimetutor.StudentHomePage;
+import com.example.anytimetutor.SupportFiles.SharedPrefManager;
+import com.example.anytimetutor.SupportFiles.User;
 import com.example.anytimetutor.ui.home.ExpandableListViewFiles.ParentLevelAdapter;
 import com.example.anytimetutor.R;
 import com.google.firebase.database.ChildEventListener;
@@ -65,14 +67,22 @@ public class HomeFragment extends Fragment {
         });
 
         text_scanid = (TextView) root.findViewById(R.id.text_scanid);
-
-        text_scanid.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent in = new Intent(getActivity(), ScannerActivity.class);
-                startActivity(in);
-            }
-        });
+        User user = SharedPrefManager.getInstance(getActivity()).getUser();
+        String stat = user.getScanStatus();
+        Log.e("scan status",stat);
+        if(stat.equals("0")) {
+            text_scanid.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent in = new Intent(getActivity(), ScannerActivity.class);
+                    startActivity(in);
+                }
+            });
+        }
+        else
+        {
+            text_scanid.setVisibility(View.GONE);
+        }
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         myRef = database.getReference();

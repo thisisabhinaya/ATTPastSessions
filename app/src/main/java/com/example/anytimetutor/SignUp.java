@@ -29,6 +29,9 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class SignUp extends AppCompatActivity {
 
     EditText e_first_name,e_last_name, e_password, e_repassword, e_phone, e_email , e_sapid;
@@ -36,6 +39,8 @@ public class SignUp extends AppCompatActivity {
     Button b_scanid, b_register;
     TextView t_login;
     ProgressBar progressBar;
+
+    String firstname, lastname, stringsappy,stringpass, email1, phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,22 +82,31 @@ public class SignUp extends AppCompatActivity {
         b_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!e_first_name.getText().toString().equals(""))
+
+                firstname=e_first_name.getText().toString();
+                lastname=e_last_name.getText().toString();
+                stringsappy= e_sapid.getText().toString();
+                phone=e_phone.getText().toString();
+                email1=e_email.getText().toString();
+                stringpass=e_password.getText().toString();
+
+                if(!firstname.equals("")&& !hasNum(firstname)&& !hasSpl(firstname))
                 {
-                    if(!e_last_name.getText().toString().equals(""))
+                    if(!lastname.equals("") && !hasNum(lastname)&& !hasSpl(lastname))
                     {
-                        if(!e_password.getText().toString().equals("") && !e_repassword.getText().toString().equals(""))
+                        if(!stringpass.equals("") && !e_repassword.getText().toString().equals("") && !(stringpass.length()<8))
                         {
                             if(e_password.getText().toString().equals(e_repassword.getText().toString()))
                             {
-                                if(!e_phone.getText().toString().equals(""))
+                                if(!phone.equals("") && (phone.length()==10) && !hasSpl(phone))
                                 {
-                                    if(!e_email.getText().toString().equals(""))
+                                    if(!email1.equals("") && isValidEmail(email1))
                                     {
                                         String year = s_year.getSelectedItem().toString();
                                         if(!year.equals("Select year"))
                                         {
-                                            if(!e_sapid.getText().toString().equals(""))
+                                            //SAP ID has to be between 10 and 12 digits, 11 digits is actual length+1 if digit preceding 0
+                                            if(!stringsappy.equals("") && !(stringsappy.length()<10) && !(stringsappy.length()>12))
                                             {
                                                 String college = s_college_name.getSelectedItem().toString();
                                                 if(!college.equals("Select college"))
@@ -107,34 +121,34 @@ public class SignUp extends AppCompatActivity {
                                                         }
                                                         else
                                                         {
-                                                            Toast.makeText(getApplicationContext(),"Stream cannot be empty",Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(getApplicationContext(),"Invalid Stream, try again!",Toast.LENGTH_SHORT).show();
                                                         }
                                                     }else
                                                     {
-                                                        Toast.makeText(getApplicationContext(),"Course cannot be empty",Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(getApplicationContext(),"Invalid Course, try again!",Toast.LENGTH_SHORT).show();
                                                     }
                                                 }else
                                                 {
-                                                    Toast.makeText(getApplicationContext(),"College Name cannot be empty",Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(getApplicationContext(),"Invalid College Name, try again!",Toast.LENGTH_SHORT).show();
                                                 }
                                             }else
                                             {
-                                                e_sapid.setError("Enter sap id");
-                                                Toast.makeText(getApplicationContext(),"Sap ID cannot be empty",Toast.LENGTH_SHORT).show();
+                                                e_sapid.setError("Enter unique, valid SAP ID");
+                                                Toast.makeText(getApplicationContext(),"Invalid SAP ID, ",Toast.LENGTH_SHORT).show();
                                             }
                                         }else
                                         {
-                                            Toast.makeText(getApplicationContext(),"Year cannot be empty",Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getApplicationContext(),"Invalid Year, try again!",Toast.LENGTH_SHORT).show();
                                         }
                                     }else
                                     {
-                                        e_email.setError("Enter email");
-                                        Toast.makeText(getApplicationContext(),"Email cannot be empty",Toast.LENGTH_SHORT).show();
+                                        e_email.setError("Enter valid email");
+                                        Toast.makeText(getApplicationContext(),"Invalid Email, try again!",Toast.LENGTH_SHORT).show();
                                     }
                                 }else
                                 {
-                                    e_phone.setError("Enter phone number");
-                                    Toast.makeText(getApplicationContext(),"Phone cannot be empty",Toast.LENGTH_SHORT).show();
+                                    e_phone.setError("Enter 10 digit phone number");
+                                    Toast.makeText(getApplicationContext(),"Invalid Phone try again!",Toast.LENGTH_SHORT).show();
                                 }
                             }else
                             {
@@ -143,22 +157,72 @@ public class SignUp extends AppCompatActivity {
                             }
                         }else
                         {
-                            e_password.setError("Enter password");
-                            Toast.makeText(getApplicationContext(),"Password cannot be empty",Toast.LENGTH_SHORT).show();
+                            e_password.setError("Enter password of 8 characters");
+                            Toast.makeText(getApplicationContext(),"Invalid Password, try again!",Toast.LENGTH_SHORT).show();
                         }
                     }else
                     {
-                        e_last_name.setError("Enter last name");
-                        Toast.makeText(getApplicationContext(),"Last Name cannot be empty",Toast.LENGTH_SHORT).show();
+                        e_last_name.setError("Enter valid last name");
+                        Toast.makeText(getApplicationContext(),"Invalid Last Name, try again!",Toast.LENGTH_SHORT).show();
                     }
                 }
                 else
                 {
-                    e_first_name.setError("Enter first name");
-                    Toast.makeText(getApplicationContext(),"First Name cannot be empty",Toast.LENGTH_SHORT).show();
+                    e_first_name.setError("Enter valid first name");
+                    Toast.makeText(getApplicationContext(),"Invalid First Name, try again!",Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    private boolean hasNum(String str)
+    {
+        boolean flag=false; char ch;
+        for (int i=0; i<str.length();i++)
+        {
+
+            ch= str.charAt(i);
+            if (Character.isDigit(ch)) {
+                flag = true;
+                break;
+            }
+
+        }
+        return flag;
+    }
+    private boolean hasSpl(String str)
+    { String splchars="!@#$%^&*()~`+-/*?,[]{}";
+        boolean flag=false; char ch; String ch1;
+        for (int i=0; i<str.length();i++)
+        {
+            ch1="";
+            ch= str.charAt(i);
+            ch1=ch+"";
+            if (splchars.contains(ch1))
+            {
+                flag=true;
+                break;
+            }
+
+        }
+        return flag;
+    }
+    private  boolean isValidEmail(String email)
+    {
+
+        String reg1 = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^-]+(?:\\.[a-zA-Z0-9_!#$%&'*+/=?`{|}~^-]+)*@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$";
+        String reg2 = "^[A-Za-z0-9+_.-]+@(.+)$";
+
+        Pattern pattern1 = Pattern.compile(reg1);
+        Pattern pattern2 = Pattern.compile(reg2);
+        //for checking there arent multiple fullstops in mail ID
+        Matcher matcher1 = pattern1.matcher(email);
+        //for checking the username of email has only digtis, alphabets and dots, dashes, underscores
+        Matcher matcher2 = pattern2.matcher(email);
+        if( matcher1.matches() && matcher2.matches())
+            return true;
+        else
+            return false;
     }
 
     private void registerUser() {
@@ -198,7 +262,8 @@ public class SignUp extends AppCompatActivity {
                                 User user = new User(
                                         userJson.getString("sap_id"),
                                         userJson.getString("first_name"),
-                                        userJson.getString("email")
+                                        userJson.getString("email"),
+                                        userJson.getString("scan_status")
                                 );
 
                                 //storing the user in shared preferences
