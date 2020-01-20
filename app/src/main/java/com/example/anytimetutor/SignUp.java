@@ -66,7 +66,7 @@ public class SignUp extends AppCompatActivity {
         s_college_name = (Spinner) findViewById(R.id.s_college_name);
         s_course = (Spinner) findViewById(R.id.s_course);
         s_stream = (Spinner) findViewById(R.id.s_stream);
-        b_scanid = (Button) findViewById(R.id.b_scanid);
+        //b_scanid = (Button) findViewById(R.id.b_scanid);
         b_register = (Button) findViewById(R.id.b_register);
         t_login = (TextView) findViewById(R.id.t_login);
 

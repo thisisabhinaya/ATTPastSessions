@@ -12,8 +12,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background_login"
-        android:paddingHorizontal="70dp">
+        android:background="@drawable/sign_up_in"
+        android:paddingHorizontal="55dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,23 +21,14 @@
             android:layout_gravity="center"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/imageView4"
-                android:layout_width="match_parent"
-                android:layout_height="115dp"
-                app:srcCompat="@drawable/att_logo"
-                tools:srcCompat="@drawable/att_logo" />
-
             <TextView
-                android:id="@+id/Username"
+                android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="5dp"
-                android:text="Username/ Email"
-                android:textColor="#3F51B5" />
+                android:text="Sign In"
+                android:textAlignment="center"
+                android:textColor="@color/app_color"
+                android:textSize="25dp" />
 
             <EditText
                 android:id="@+id/e_username"
@@ -47,19 +38,12 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="5dp"
+                android:backgroundTint="#90D3D6"
+                android:drawableRight="@drawable/user_icon"
                 android:ems="10"
-                android:inputType="textEmailAddress" />
-
-            <TextView
-                android:id="@+id/password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="5dp"
-                android:text="Password"
-                android:textColor="#3F51B5" />
+                android:hint="Username/ Email"
+                android:inputType="textEmailAddress"
+                android:textColorHint="#90D3D6" />
 
             <EditText
                 android:id="@+id/e_password"
@@ -69,8 +53,12 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="5dp"
+                android:backgroundTint="#90D3D6"
+                android:drawableRight="@drawable/password_icon"
                 android:ems="10"
-                android:inputType="textPassword" />
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:textColorHint="#90D3D6" />
 
             <Button
                 android:id="@+id/b_login"
@@ -80,9 +68,9 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="10dp"
-                android:background="#3F51B5"
                 android:text="Login"
-                android:textColor="#F5F5F2" />
+                android:textColor="#F5F5F2"
+                android:background="@drawable/roundedbutton"/>
 
             <TextView
                 android:id="@+id/t_register"
@@ -93,7 +81,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="5dp"
                 android:text="New User? Register Now!"
-                android:textColor="#3F51B5" />
+                android:textColor="#90D3D6" />
 
         </LinearLayout>
 

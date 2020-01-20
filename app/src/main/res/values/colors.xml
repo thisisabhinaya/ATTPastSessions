@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#3F51B5</color>
+    <color name="colorPrimary">#90D3D6</color>
+    <color name="colorPrimaryDark">#90D3D6</color>
     <color name="colorAccent">#D81B60</color>
 
     <!-- Screens background color-->
-    <color name="bg_screen1">#f64c73</color>
+    <color name="bg_screen1">#F64C73</color>
     <color name="bg_screen2">#20d2bb</color>
     <color name="bg_screen3">#3395ff</color>
     <color name="bg_screen4">#c873f4</color>
+    <color name="app_color">#90D3D6</color>
 
     <!-- dots inactive colors -->
     <color name="dot_dark_screen1">#d1395c</color>
@@ -35,5 +36,6 @@
         <item>@color/dot_dark_screen3</item>
         <item>@color/dot_dark_screen4</item>
     </array>
+
 
 </resources>

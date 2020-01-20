@@ -9,13 +9,14 @@
         android:id="@+id/text_scanid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="Complete ID Verification"
-        android:gravity="left"
         android:drawableRight="@android:drawable/ic_dialog_alert"
         android:drawableTint="#FFC107"
-        android:textColor="#FFC107"
-        android:textSize="20sp" />
+        android:gravity="left"
+        android:padding="10dp"
+        android:text="Complete ID Verification"
+        android:textColor="@color/bg_screen1"
+        android:textSize="20sp"
+        app:drawableTint="@color/bg_screen1" />
 
     <TextView
         android:id="@+id/text_home"
@@ -24,7 +25,7 @@
         android:padding="10dp"
         android:text="Search Courses"
         android:textAlignment="center"
-        android:textColor="#3F51B5"
+        android:textColor="#90D3D6"
         android:textSize="20sp" />
 
         <androidx.cardview.widget.CardView
@@ -76,9 +77,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:text="Recent Topics and Sessions"
+                        android:text="You may also like"
                         android:textAlignment="center"
-                        android:textColor="#3F51B5"
+                        android:textColor="#90D3D6"
                         android:textSize="20sp" />
 
                     <HorizontalScrollView
@@ -112,9 +113,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:text="Browse Tutors"
+                        android:text="Most viewed topics"
                         android:textAlignment="center"
-                        android:textColor="#3F51B5"
+                        android:textColor="#90D3D6"
                         android:textSize="20sp" />
 
                     <HorizontalScrollView
