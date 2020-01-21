@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/logout"
+        android:icon="@android:drawable/ic_lock_power_off"
+        android:iconTint="@color/cardview_light_background"
         android:orderInCategory="100"
         android:title="Logout"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
 </menu>
