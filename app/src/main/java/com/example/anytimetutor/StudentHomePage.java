@@ -84,8 +84,8 @@ public class StudentHomePage extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.logout:
-                finish();
                 SharedPrefManager.getInstance(getApplicationContext()).logout();
+                finish();
             default:
                 return super.onOptionsItemSelected(item);
         }

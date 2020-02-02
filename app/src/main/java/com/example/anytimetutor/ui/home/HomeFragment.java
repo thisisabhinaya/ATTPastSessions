@@ -1,6 +1,8 @@
 package com.example.anytimetutor.ui.home;
 
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.MediaController;
 import android.net.Uri;
@@ -67,7 +69,9 @@ public class HomeFragment extends Fragment {
         });
 
         text_scanid = (TextView) root.findViewById(R.id.text_scanid);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         User user = SharedPrefManager.getInstance(getActivity()).getUser();
+        //String stat = sharedPreferences.getString("scan_status",null);;
         String stat = user.getScanStatus();
         Log.e("scan status",stat);
         if(stat.equals("0")) {

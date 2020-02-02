@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
@@ -44,16 +46,21 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
         //startActivity(intent);
         Toast.makeText(this, rawResult.toString(),Toast.LENGTH_LONG).show();
         User user = SharedPrefManager.getInstance(this).getUser();
+
+        //Comparing entered sap id during registration and scanned id through barcode
         if(user.getId().equals(rawResult.toString().substring(1,rawResult.toString().length())))
         {
-            SharedPreferences sharedPreferences = this.getSharedPreferences("simplifiedcodingsharedpref", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("scan_status","1");
-            editor.apply();
+            //Updating scan status value in local cache (Shared Preference)
+            SharedPrefManager.getInstance(getApplicationContext()).update_scan_status("1");
+
+            //Updating scan status in database
+
+
             Intent in = new Intent(ScanActivity.this, StudentHomePage.class);
             startActivity(in);
             finish();
         }
+        //If entered sap id and scanned id does not match
         else {
             Toast.makeText(this, "Invalid SAP ID", Toast.LENGTH_LONG).show();
             onBackPressed();

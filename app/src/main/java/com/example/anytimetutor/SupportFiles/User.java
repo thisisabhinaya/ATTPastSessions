@@ -1,9 +1,11 @@
 package com.example.anytimetutor.SupportFiles;
 
+import android.util.Log;
+
 public class User {
 
     private String id, scan_status;
-    private String username, email, gender;
+    private String username, email;
 
     public User(String sapid, String firstname, String email, String scan_status) {
         this.id = sapid;
@@ -18,6 +20,10 @@ public class User {
 
     public String getScanStatus() {
         return scan_status;
+    }
+
+    public void updateScanStatus(String new_stat) {
+        scan_status = new_stat;
     }
 
     public String getUsername() {

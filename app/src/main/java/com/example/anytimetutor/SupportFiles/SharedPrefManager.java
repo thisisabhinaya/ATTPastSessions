@@ -63,6 +63,16 @@ public class SharedPrefManager {
         editor.apply();
     }
 
+    //Function to update scan status after successful id verification
+    public void update_scan_status(String new_stat) {
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        User user = SharedPrefManager.getInstance(mCtx).getUser();
+        user.updateScanStatus(new_stat);
+        editor.putString(KEY_SCAN_STATUS, user.getScanStatus());
+        editor.apply();
+    }
+
     //this method will checker whether user is already logged in or not
     public boolean isLoggedIn() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
