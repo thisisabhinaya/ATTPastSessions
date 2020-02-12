@@ -1,5 +1,6 @@
 package com.example.anytimetutor;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -22,6 +23,11 @@ import com.example.anytimetutor.SupportFiles.SharedPrefManager;
 import com.example.anytimetutor.SupportFiles.URLs;
 import com.example.anytimetutor.SupportFiles.User;
 import com.example.anytimetutor.SupportFiles.VolleySingleton;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -268,6 +274,18 @@ public class SignUp extends AppCompatActivity {
 
                                 //storing the user in shared preferences
                                 SharedPrefManager.getInstance(getApplicationContext()).userLogin(user);
+
+                                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                // Create a new user with a first and last name
+                                Map<String, Object> us = new HashMap<>();
+                                us.put("first", userJson.getString("first_name"));
+                                us.put("email", userJson.getString("email"));
+
+                                db.collection("publishers")
+                                        .document("users")
+                                        .collection(userJson.getString("sap_id"))
+                                        .document("personal_info")
+                                        .set(us);
 
                                 //starting the profile activity
                                 finish();

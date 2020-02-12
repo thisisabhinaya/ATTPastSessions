@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1051387546188-frdmpbij6dehnvvfcilbkqrknlhg21kq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.anytimetutor",
+            "certificate_hash": "6e76c6372382995b3b411ba98c832000f29f3dba"
+          }
+        },
+        {
           "client_id": "1051387546188-if8p4ddk1mlc1d71l6n6jamovnk4b6sh.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

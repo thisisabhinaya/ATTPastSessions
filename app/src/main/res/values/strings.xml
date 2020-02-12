@@ -57,40 +57,17 @@
         <item>Chemical</item>
     </string-array>
 
-    <string-array name="items_array_expandable_level_one">
-        <item>Coding</item>
-        <item>Theory</item>
-        <item>Competitive Exams</item>
-    </string-array>
-    <string-array name="items_array_expandable_level_one_one_child">
+    <string-array name="preference_items">
+        <item>None</item>
         <item>Web Development</item>
-        <item>Android App Development</item>
+        <item>AndroidAppDevelopment</item>
         <item>Python</item>
-    </string-array>
-    <string-array name="items_array_expandable_level_one_two_child">
-        <item>DSA</item>
-        <item>SS</item>
-        <item>COA</item>
-    </string-array>
-    <string-array name="items_array_expandable_level_one_three_child">
-        <item>NPAT</item>
-        <item>NMAT</item>
-        <item>CAT</item>
-    </string-array>
-    <string-array name="items_array_expandable_level_one_child_one">
-        <item>HTML</item>
-        <item>CSS</item>
-        <item>JS</item>
-    </string-array>
-    <string-array name="items_array_expandable_level_one_child_two">
-        <item>Basic</item>
-        <item>Firebase</item>
-        <item>Kotlin</item>
-    </string-array>
-    <string-array name="items_array_expandable_level_three">
-        <item>SubTopic 1</item>
-        <item>SubTopic 2</item>
-        <item>SubTopic 3</item>
+        <item>GRE</item>
+        <item>IELTS or TOEFL</item>
+        <item>NMAT or CAT</item>
+        <item>Business Statistics</item>
+        <item>CS Subjects (AI, DSA, DSP)</item>
+        <item>Mathematics</item>
     </string-array>
 
     <string name="title_activity_student_home">StudentHomeActivity</string>

@@ -1,5 +1,6 @@
 package com.example.anytimetutor.ui.home;
 
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.preference.PreferenceManager;
@@ -54,6 +55,8 @@ public class HomeFragment extends Fragment {
     TextView text_scanid;
     //List<String> listDataHeader;
 
+    public ProgressDialog mProgressDialog;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -95,6 +98,8 @@ public class HomeFragment extends Fragment {
         listDataHeader = new ArrayList<>();
         mItemHeaders = new ArrayList<>();
         mSubItemHeaders = new ArrayList<>();
+
+        showProgressDialog();
 
         getDataFromFirebase();
 
@@ -153,6 +158,7 @@ public class HomeFragment extends Fragment {
                     mExpandableListView.setAdapter(parentLevelAdapter);
                 }
 
+                hideProgressDialog();
             }
 
             @Override
@@ -180,4 +186,27 @@ public class HomeFragment extends Fragment {
         // mTasksDatabaseReference.addChildEventListener(mChildEventListener);
     }
 
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(getActivity());
+            mProgressDialog.setMessage("Loading ...");
+            mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setCancelable(false);
+        }
+
+        mProgressDialog.show();
+    }
+
+
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        hideProgressDialog();
+    }
 }

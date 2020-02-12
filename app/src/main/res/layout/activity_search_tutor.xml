@@ -97,6 +97,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="false"
                 android:backgroundTint="#90D3D6"
                 android:ems="10"
                 android:hint="Select Date"
@@ -110,6 +112,8 @@
                 android:layout_weight="1"
                 android:backgroundTint="#90D3D6"
                 android:ems="10"
+                android:clickable="true"
+                android:focusable="false"
                 android:hint="Select Time"
                 android:inputType="time"
                 android:textSize="15dp" />
@@ -130,6 +134,7 @@
                 android:orientation="horizontal">
 
                 <RadioGroup
+                    android:id="@+id/duration"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
@@ -182,6 +187,7 @@
                 android:orientation="horizontal">
 
                 <RadioGroup
+                    android:id="@+id/session"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
@@ -233,6 +239,7 @@
                 android:orientation="horizontal">
 
                 <RadioGroup
+                    android:id="@+id/incentive"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
@@ -283,6 +290,7 @@
                 android:orientation="horizontal">
 
                 <RadioGroup
+                    android:id="@+id/venue"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">

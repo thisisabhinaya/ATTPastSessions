@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:dist="http://schemas.android.com/apk/distribution"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:dist="http://schemas.android.com/apk/distribution"
     package="com.example.anytimetutor">
 
     <dist:module dist:instant="true" />
@@ -11,13 +11,17 @@
 
     <application
         android:allowBackup="true"
-        android:label="@string/app_name"
         android:icon="@mipmap/ic_app_icon"
+        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_app_icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ScannerActivity"
-            android:screenOrientation="portrait" ></activity>
+        <activity android:name=".EditTutorProfileActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".ScannerActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ScanActivity"
             android:screenOrientation="portrait" />
@@ -29,21 +33,21 @@
         <activity
             android:name=".WelcomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SignUp"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateVisible|adjustPan"/>
-        <activity android:name=".SearchTutor"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
+        <activity
+            android:name=".SearchTutor"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible|adjustPan"
-            />
+            android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateVisible|adjustPan"/>
+            android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity
             android:name=".SplashScreen"
             android:screenOrientation="portrait"
