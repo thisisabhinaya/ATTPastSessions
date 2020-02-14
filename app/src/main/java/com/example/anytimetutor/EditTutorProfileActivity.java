@@ -31,6 +31,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -91,6 +92,10 @@ public class EditTutorProfileActivity extends AppCompatActivity {
                         p2 = doc.get("pref2").toString();
                         p3 = doc.get("pref3").toString();
 
+                        System.out.println("p1"+p1);
+                        System.out.println("p2"+p2);
+                        System.out.println("p3"+p3);
+
                         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(), R.array.preference_items, android.R.layout.simple_spinner_item);
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -141,10 +146,14 @@ public class EditTutorProfileActivity extends AppCompatActivity {
                 String np2 = pref2.getSelectedItem().toString();
                 String np3 = pref3.getSelectedItem().toString();
 
+                System.out.println("np1"+np1);
+                System.out.println("np2"+np2);
+                System.out.println("np3"+np3);
+
                 final String b = bio.getText().toString();
                 final String l = link_url.getText().toString();
 
-                if((!np1.equals(p2) && !np1.equals(p3) && !np2.equals(p3) && !np1.equals("None"))|| (np2.equals("None") && np3.equals("None") && !np1.equals("None")))
+                if((!np1.equals(np2) && !np1.equals(np3) && !np2.equals(np3) && !np1.equals("None"))|| (np2.equals("None") && np3.equals("None") && !np1.equals("None")))
                 {
 
                     if(p1!=null) {
@@ -193,20 +202,20 @@ public class EditTutorProfileActivity extends AppCompatActivity {
 
                     db.collection("subscribers")
                             .document(np1)
-                            .set(tutor);
+                            .update(tutor);
 
                     if(!np2.equals("None"))
                     {
                         db.collection("subscribers")
                                 .document(np2)
-                                .set(tutor);
+                                .update(tutor);
                     }
 
                     if(!np3.equals("None"))
                     {
                         db.collection("subscribers")
                                 .document(np3)
-                                .set(tutor);
+                                .update(tutor);
                     }
 
                     Map<String, Object> pref = new HashMap<>();
@@ -214,11 +223,15 @@ public class EditTutorProfileActivity extends AppCompatActivity {
                     pref.put("pref2", np2);
                     pref.put("pref3", np3);
 
+                    FirebaseMessaging.getInstance().subscribeToTopic("/topics/"+np1.replaceAll(" ", ""));
+                    FirebaseMessaging.getInstance().subscribeToTopic("/topics/"+np2.replaceAll(" ", ""));
+                    FirebaseMessaging.getInstance().subscribeToTopic("/topics/"+np3.replaceAll(" ", ""));
+
                     db.collection("publishers")
                             .document("users")
                             .collection(id)
                             .document("personal_info")
-                            .set(pref);
+                            .update(pref);
 
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, URLs.URL_UPDATE_TUTOR_PROFILE,
                             new Response.Listener<String>() {
@@ -269,6 +282,7 @@ public class EditTutorProfileActivity extends AppCompatActivity {
                 }
                 else
                 {
+                    hideProgressDialog();
                     Toast.makeText(getApplicationContext(), "Preference 1 cannot be None and Preferences cannot be same..", Toast.LENGTH_LONG).show();
                 }
 

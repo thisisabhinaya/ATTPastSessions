@@ -1,5 +1,6 @@
 package com.example.anytimetutor;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
@@ -7,7 +8,9 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -15,10 +18,25 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.anytimetutor.SupportFiles.SharedPrefManager;
 import com.example.anytimetutor.SupportFiles.User;
+import com.example.anytimetutor.SupportFiles.VolleySingleton;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -32,7 +50,7 @@ public class SearchTutor extends AppCompatActivity {
 
     String category;
     String subject;
-    String topic, format;
+    String topic, format, p1,p2,p3;
     int radioButtonID,idx;
     View radioButton;
 
@@ -44,6 +62,14 @@ public class SearchTutor extends AppCompatActivity {
     RadioButton r_1,r_2,r_3,r_individual,r_group,r_any,r_incentive1,r_incentive2,r_incentive3,r_venue1,r_venue2;
 
     final Calendar myCalendar = Calendar.getInstance();
+    final private String FCM_API = "https://fcm.googleapis.com/fcm/send";
+    final private String serverKey = "key=" + "AAAA9MuUykw:APA91bGLwfOenSE9i1AnGbZo_9-kag5z8ARw99cAev9Uevq8SUXVWvSyMNRpnfsuZyKguWo4-ZfhIU6e2L04iLU5xV_gO17gI6x5-nK4eqsBEhaqcUZCHvs_0bH-tgB6cvo-2VvVwMm6";
+    final private String contentType = "application/json";
+    final String TAG = "NOTIFICATION TAG";
+
+    String NOTIFICATION_TITLE;
+    String NOTIFICATION_MESSAGE, NOTIFICATION_ID;
+    String TOPIC;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,6 +173,37 @@ public class SearchTutor extends AppCompatActivity {
         t_subjectdb.setText(subject);
         t_topicdb.setText(topic);
 
+        final User user = SharedPrefManager.getInstance(getApplicationContext()).getUser();
+        final String id = user.getId();
+
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        DocumentReference ppp = db.collection("publishers")
+                .document("users")
+                .collection(id)
+                .document("personal_info");
+
+        ppp.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task< DocumentSnapshot > task) {
+                if (task.isSuccessful()) {
+
+                    DocumentSnapshot doc = task.getResult();
+                    if(doc.get("pref1") != null) {
+                        p1 = doc.get("pref1").toString();
+                        p2 = doc.get("pref2").toString();
+                        p3 = doc.get("pref3").toString();
+
+                    }
+                }
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+
         search_tutor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -184,6 +241,7 @@ public class SearchTutor extends AppCompatActivity {
                 final User user = SharedPrefManager.getInstance(getApplicationContext()).getUser();
                 final String id = user.getId();
                 final String name = user.getUsername();
+                final String email = user.getEmail();
 
                 //Date object
                 Date c_d= new Date();
@@ -197,13 +255,15 @@ public class SearchTutor extends AppCompatActivity {
 
                 Map<String, Object> req = new HashMap<>();
                 req.put("stud_id", id);
+                req.put("stud_name", name);
+                req.put("stud_email", email);
                 req.put("category", category);
                 req.put("subject", subject);
                 req.put("topic", topic);
                 req.put("date", date);
                 req.put("time", time);
                 req.put("duration", d);
-                req.put("session", s);
+                req.put("session_type", s);
                 req.put("venue", vn);
                 req.put("incentive", i);
                 req.put("status", "pending");
@@ -215,9 +275,71 @@ public class SearchTutor extends AppCompatActivity {
                         .document(ts.toString())
                         .set(req);
 
+                TOPIC = "/topics/"+subject; //topic must match with what the receiver subscribed to
+                NOTIFICATION_TITLE = "Time to Teach!!";
+                NOTIFICATION_MESSAGE = "You have a new session request for "+subject;
+                NOTIFICATION_ID = ts.toString();
+
+                JSONObject notification = new JSONObject();
+                JSONObject notifcationBody = new JSONObject();
+                try {
+                    notifcationBody.put("title", NOTIFICATION_TITLE);
+                    notifcationBody.put("message", NOTIFICATION_MESSAGE);
+                    notifcationBody.put("id", NOTIFICATION_ID);
+                    notifcationBody.put("subject", subject);
+                    notification.put("to", TOPIC);
+                    notification.put("data", notifcationBody);
+                } catch (JSONException e) {
+                    Log.e(TAG, "onCreate: " + e.getMessage() );
+                }
+                Log.e("notification",notification.toString());
+
+                if(subject.equals(p1) || subject.equals(p2) || subject.equals(p3))
+                {
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic(subject.replaceAll(" ",""));
+                    sendNotification(notification);
+                }
+                else
+                {
+                    sendNotification(notification);
+                }
             }
+
         });
 
+    }
+
+    private void sendNotification(JSONObject notification) {
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(FCM_API, notification,
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.i(TAG, "onResponse: " + response.toString());
+                        FirebaseMessaging.getInstance().subscribeToTopic(subject.replaceAll(" ",""));
+                        Toast.makeText(SearchTutor.this, "Request sent successfully!", Toast.LENGTH_LONG).show();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        FirebaseMessaging.getInstance().subscribeToTopic(subject.replaceAll(" ",""));
+                        Toast.makeText(SearchTutor.this, "Request error", Toast.LENGTH_LONG).show();
+                        Log.i(TAG, "onErrorResponse: Didn't work");
+                    }
+                }){
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", serverKey);
+                params.put("Content-Type", contentType);
+                return params;
+            }
+        };
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
 
     private void updateLabel() {
