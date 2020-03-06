@@ -9,13 +9,19 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.anytimetutor.SupportFiles.SharedPrefManager;
+import com.example.anytimetutor.SupportFiles.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RequestDetailsActivity extends AppCompatActivity {
 
@@ -77,14 +83,28 @@ public class RequestDetailsActivity extends AppCompatActivity {
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DocumentReference ppp = db.collection("subscribers")
+                        .document(subject)
+                        .collection("requests")
+                        .document(id);
 
+                final User user = SharedPrefManager.getInstance(getApplicationContext()).getUser();
+                final String tutor_id = user.getId();
+                final String tutor_name= user.getUsername();
+
+                Map<String, Object> req = new HashMap<>();
+                req.put(tutor_id, tutor_name);
+
+                ppp.collection("response").document("accepted_by").update(req);
+
+                Toast.makeText(getApplicationContext(), "You have accepted the request..", Toast.LENGTH_LONG).show();
             }
         });
 
         reject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Toast.makeText(getApplicationContext(), "You have rejected the request..", Toast.LENGTH_LONG).show();
             }
         });
     }

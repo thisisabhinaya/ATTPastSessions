@@ -268,13 +268,22 @@ public class SearchTutor extends AppCompatActivity {
                 req.put("venue", vn);
                 req.put("incentive", i);
                 req.put("status", "pending");
-                req.put("timestamp", ts);
+                req.put("timestamp", ts.toString());
 
                 db.collection("subscribers")
                         .document(subject)
                         .collection("requests")
                         .document(ts.toString())
                         .set(req);
+
+                Map<String, Object> req1 = new HashMap<>();
+                req1.put(ts.toString(), subject);
+
+                db.collection("publishers")
+                        .document("users")
+                        .collection(id)
+                        .document("requests_made")
+                        .update(req);
 
                 TOPIC = "/topics/"+subject; //topic must match with what the receiver subscribed to
                 NOTIFICATION_TITLE = "Time to Teach!!";
@@ -318,7 +327,10 @@ public class SearchTutor extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.i(TAG, "onResponse: " + response.toString());
-                        FirebaseMessaging.getInstance().subscribeToTopic("/topics/"+subject.replaceAll(" ",""));
+                        if(subject.equals(p1) || subject.equals(p2) || subject.equals(p3))
+                        {
+                            FirebaseMessaging.getInstance().subscribeToTopic("/topics/"+subject.replaceAll(" ",""));
+                        }
                         Toast.makeText(SearchTutor.this, "Request sent successfully!", Toast.LENGTH_LONG).show();
                     }
                 },
@@ -326,7 +338,10 @@ public class SearchTutor extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-                        FirebaseMessaging.getInstance().subscribeToTopic("/topics/"+subject.replaceAll(" ",""));
+                        if(subject.equals(p1) || subject.equals(p2) || subject.equals(p3))
+                        {
+                            FirebaseMessaging.getInstance().subscribeToTopic("/topics/"+subject.replaceAll(" ",""));
+                        }
                         Toast.makeText(SearchTutor.this, "Request error", Toast.LENGTH_LONG).show();
                         Log.i(TAG, "onErrorResponse: Didn't work");
                     }
