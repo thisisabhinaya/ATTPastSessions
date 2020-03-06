@@ -76,6 +76,7 @@ public class SearchTutor extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_tutor);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent in= getIntent();
         category= in.getStringExtra("Category");
@@ -296,7 +297,7 @@ public class SearchTutor extends AppCompatActivity {
 
                 if(subject.equals(p1) || subject.equals(p2) || subject.equals(p3))
                 {
-                    FirebaseMessaging.getInstance().unsubscribeFromTopic(subject.replaceAll(" ",""));
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic("/topics/"+subject.replaceAll(" ",""));
                     sendNotification(notification);
                 }
                 else
@@ -317,7 +318,7 @@ public class SearchTutor extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.i(TAG, "onResponse: " + response.toString());
-                        FirebaseMessaging.getInstance().subscribeToTopic(subject.replaceAll(" ",""));
+                        FirebaseMessaging.getInstance().subscribeToTopic("/topics/"+subject.replaceAll(" ",""));
                         Toast.makeText(SearchTutor.this, "Request sent successfully!", Toast.LENGTH_LONG).show();
                     }
                 },
@@ -325,7 +326,7 @@ public class SearchTutor extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-                        FirebaseMessaging.getInstance().subscribeToTopic(subject.replaceAll(" ",""));
+                        FirebaseMessaging.getInstance().subscribeToTopic("/topics/"+subject.replaceAll(" ",""));
                         Toast.makeText(SearchTutor.this, "Request error", Toast.LENGTH_LONG).show();
                         Log.i(TAG, "onErrorResponse: Didn't work");
                     }
@@ -347,5 +348,11 @@ public class SearchTutor extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         e_date.setText(sdf.format(myCalendar.getTime()));
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

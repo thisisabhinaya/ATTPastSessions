@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -52,6 +53,8 @@ public class EditTutorProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_tutor_profile);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         final User user = SharedPrefManager.getInstance(getApplicationContext()).getUser();
         final String id = user.getId();
@@ -313,6 +316,12 @@ public class EditTutorProfileActivity extends AppCompatActivity {
     public void onStop() {
         super.onStop();
         hideProgressDialog();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
 }

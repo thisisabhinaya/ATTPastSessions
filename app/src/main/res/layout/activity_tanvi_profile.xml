@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="30dp"
-            android:text="Your Profile"
+            android:text="Tutor Profile"
             android:textColor="#90d3d6"
             android:textSize="25dp"
             android:textStyle="bold" />
@@ -54,6 +54,7 @@
             android:ems="10"
             android:enabled="false"
             android:inputType="textPersonName"
+            android:text="Tanvi Naik"
             android:textColor="#90d3d6"
             android:textSize="20dp" />
 
@@ -66,34 +67,10 @@
             android:ems="10"
             android:enabled="false"
             android:inputType="textPersonName"
+            android:text="This is Tanvi"
             android:textColor="#000000"
             android:textSize="20dp" />
 
-        <Button
-            android:id="@+id/edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="250dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="50dp"
-            android:background="@drawable/roundedbutton"
-            android:drawableRight="@drawable/pencil_icon"
-            android:text="EDIT"
-            android:textColor="#F5F5F2" />
-
     </androidx.cardview.widget.CardView>
-
-    <Button
-        android:id="@+id/view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="false"
-        android:layout_gravity="center"
-        android:layout_marginTop="253dp"
-        android:background="@drawable/roundedbutton"
-        android:foregroundGravity="center|center_horizontal"
-        android:gravity="center|center_horizontal"
-        android:text="View Requests"
-        android:textColor="#F5F5F2" />
 
 </RelativeLayout>

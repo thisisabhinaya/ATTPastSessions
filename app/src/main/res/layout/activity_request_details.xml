@@ -1,247 +1,295 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".RequestDetailsActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/edit_back"
+    tools:context=".RequestDetailsActivity">
 
-<TextView
-    android:id="@+id/textView9"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentStart="true"
-    android:layout_alignParentTop="true"
-    android:layout_marginStart="6dp"
-    android:layout_marginTop="20dp"
-    android:text="Session Request Details"
-    android:textSize="18sp" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="30dp"
+        android:paddingTop="50dp">
 
-<ImageView
-    android:id="@+id/imageView7"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentStart="true"
-    android:layout_alignParentTop="true"
-    android:layout_marginStart="11dp"
-    android:layout_marginTop="82dp"
-    tools:srcCompat="@tools:sample/avatars" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-<TextView
-    android:id="@+id/stud_name"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentTop="true"
-    android:layout_alignParentEnd="true"
-    android:layout_marginTop="64dp"
-    android:layout_marginEnd="39dp"
-    android:ems="10"
-    android:inputType="textPersonName"
-    android:text="Student Name" />
-<!--
-<TextView
-    android:id="@+id/college_name"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentTop="true"
-    android:layout_alignParentEnd="true"
-    android:layout_marginTop="119dp"
-    android:layout_marginEnd="37dp"
-    android:ems="10"
-    android:inputType="textPersonName"
-    android:text="College Name" />
--->
-<TextView
-    android:id="@+id/email"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentTop="true"
-    android:layout_alignParentEnd="true"
-    android:layout_marginTop="178dp"
-    android:layout_marginEnd="34dp"
-    android:ems="10"
-    android:inputType="textPersonName"
-    android:text="Email" />
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Session Request Details"
+                android:textColor="#90d3d6"
+                android:textSize="20dp" />
 
-<TextView
-    android:id="@+id/date"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentTop="true"
-    android:layout_alignParentEnd="true"
-    android:layout_centerHorizontal="true"
-    android:layout_marginTop="237dp"
-    android:layout_marginEnd="78dp"
-    android:ems="10"
-    android:inputType="textPersonName"
-    android:text="date" />
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:paddingTop="20dp"
+                app:srcCompat="@drawable/gender_icon"
+                tools:srcCompat="@drawable/gender_icon" />
 
-<TextView
-    android:id="@+id/textView10"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentStart="true"
-    android:layout_alignParentTop="true"
-    android:layout_marginStart="24dp"
-    android:layout_marginTop="264dp"
-    android:text="Date" />
+            <TextView
+                android:id="@+id/stud_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:paddingTop="10dp"
+                android:text="Student Name"
+                android:textColor="#90d3d6"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+            <!--
+            <TextView
+                android:id="@+id/college_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="119dp"
+                android:layout_marginEnd="37dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="College Name" />
+            -->
+            <TextView
+                android:id="@+id/email"
+                android:paddingTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Email"
+                android:textColor="#90d3d6"
+                android:textSize="15dp"
+                android:textStyle="bold" />
 
-<TextView
-    android:id="@+id/textView11"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentStart="true"
-    android:layout_alignParentTop="true"
-    android:layout_marginStart="21dp"
-    android:layout_marginTop="314dp"
-    android:text="Time" />
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-<TextView
-    android:id="@+id/time"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentTop="true"
-    android:layout_alignParentEnd="true"
-    android:layout_marginTop="299dp"
-    android:layout_marginEnd="72dp"
-    android:ems="10"
-    android:inputType="textPersonName"
-    android:text="time" />
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-<TextView
-    android:id="@+id/textView12"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentStart="true"
-    android:layout_alignParentBottom="true"
-    android:layout_marginStart="21dp"
-    android:layout_marginBottom="341dp"
-    android:text="Topic" />
+                    <TextView
+                        android:id="@+id/textView10"
+                        android:paddingTop="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:text="Date"
+                        android:textColor="#90d3d6"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
 
-<TextView
-    android:id="@+id/topic"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentEnd="true"
-    android:layout_alignParentBottom="true"
-    android:layout_marginEnd="72dp"
-    android:layout_marginBottom="323dp"
-    android:ems="10"
-    android:inputType="textPersonName"
-    android:text="topic" />
+                    <TextView
+                        android:id="@+id/date"
+                        android:paddingTop="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Date"
+                        android:textSize="15dp" />
+                </TableRow>
 
-<TextView
-    android:id="@+id/textView13"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentStart="true"
-    android:layout_alignParentBottom="true"
-    android:layout_marginStart="21dp"
-    android:layout_marginBottom="268dp"
-    android:text="Duration" />
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-<TextView
-    android:id="@+id/duration"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentEnd="true"
-    android:layout_alignParentBottom="true"
-    android:layout_marginEnd="74dp"
-    android:layout_marginBottom="257dp"
-    android:ems="10"
-    android:inputType="textPersonName"
-    android:text="duration" />
+                    <TextView
+                        android:id="@+id/textView11"
+                        android:paddingTop="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Time"
+                        android:textColor="#90d3d6"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
 
-<TextView
-    android:id="@+id/textView14"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentStart="true"
-    android:layout_alignParentBottom="true"
-    android:layout_marginStart="19dp"
-    android:layout_marginBottom="207dp"
-    android:text="Session Type" />
+                    <TextView
+                        android:id="@+id/time"
+                        android:paddingTop="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:text="time"
+                        android:textSize="15dp"/>
+                </TableRow>
 
-<TextView
-    android:id="@+id/sess_type"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentEnd="true"
-    android:layout_alignParentBottom="true"
-    android:layout_marginEnd="74dp"
-    android:layout_marginBottom="206dp"
-    android:ems="10"
-    android:inputType="textPersonName"
-    android:text="session type" />
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-<TextView
-    android:id="@+id/textView15"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentStart="true"
-    android:layout_alignParentBottom="true"
-    android:layout_marginStart="17dp"
-    android:layout_marginBottom="147dp"
-    android:text="Incentive" />
+                    <TextView
+                        android:id="@+id/textView12"
+                        android:paddingTop="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Topic"
+                        android:textColor="#90d3d6"
+                        android:textSize="15dp"
+                        android:textStyle="bold"/>
 
-<TextView
-    android:id="@+id/incentive"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentEnd="true"
-    android:layout_alignParentBottom="true"
-    android:layout_marginEnd="69dp"
-    android:layout_marginBottom="144dp"
-    android:ems="10"
-    android:inputType="textPersonName"
-    android:text="Incentive" />
+                    <TextView
+                        android:id="@+id/topic"
+                        android:paddingTop="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:text="topic"
+                        android:textSize="15dp" />
+                </TableRow>
 
-<TextView
-    android:id="@+id/textView16"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentStart="true"
-    android:layout_alignParentBottom="true"
-    android:layout_marginStart="16dp"
-    android:layout_marginBottom="97dp"
-    android:text="Venue" />
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-<TextView
-    android:id="@+id/venue"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentEnd="true"
-    android:layout_alignParentBottom="true"
-    android:layout_marginEnd="67dp"
-    android:layout_marginBottom="83dp"
-    android:ems="10"
-    android:inputType="textPersonName"
-    android:text="Venue" />
+                    <TextView
+                        android:id="@+id/textView13"
+                        android:paddingTop="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Duration"
+                        android:textColor="#90d3d6"
+                        android:textSize="15dp"
+                        android:textStyle="bold"/>
 
-<Button
-    android:id="@+id/accept"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentStart="true"
-    android:layout_alignParentBottom="true"
-    android:layout_marginStart="11dp"
-    android:text="ACCEPT" />
-<!--
-<Button
-    android:id="@+id/button11"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentStart="true"
-    android:layout_alignParentBottom="true"
-    android:layout_marginStart="137dp"
-    android:text="NEGOTIATE" />
--->
-<Button
-    android:id="@+id/reject"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentEnd="true"
-    android:layout_alignParentBottom="true"
-    android:layout_marginEnd="51dp"
-    android:text="REJECT" />
+                    <TextView
+                        android:id="@+id/duration"
+                        android:paddingTop="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:text="duration"
+                        android:textSize="15dp"/>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textView14"
+                        android:paddingTop="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Session Type"
+                        android:textColor="#90d3d6"
+                        android:textSize="15dp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/sess_type"
+                        android:paddingTop="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:text="session type"
+                        android:textSize="15dp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textView15"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Incentive"
+                        android:paddingTop="10dp"
+                        android:textColor="#90d3d6"
+                        android:textSize="15dp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/incentive"
+                        android:paddingTop="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:text="Incentive"
+                        android:textSize="15dp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textView16"
+                        android:layout_width="wrap_content"
+                        android:paddingTop="10dp"
+                        android:layout_height="wrap_content"
+                        android:text="Venue"
+                        android:textColor="#90d3d6"
+                        android:textSize="15dp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/venue"
+                        android:paddingTop="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:text="Venue"
+                        android:textSize="15dp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <Button
+                        android:id="@+id/accept"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="13dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="40dp"
+                        android:background="@drawable/roundedbutton"
+                        android:text="ACCEPT"
+                        android:textColor="@android:color/background_light" />
+                    <!--
+                    <Button
+                        android:id="@+id/button11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="137dp"
+                        android:text="NEGOTIATE" />
+                    -->
+                    <Button
+                        android:id="@+id/reject"
+                        android:layout_width="20dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/roundedbutton"
+                        android:text="REJECT"
+                        android:textColor="@android:color/background_light" />
+                </TableRow>
+            </TableLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+
 </RelativeLayout>

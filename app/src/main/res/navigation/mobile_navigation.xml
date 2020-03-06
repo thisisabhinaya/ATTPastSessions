@@ -19,9 +19,9 @@
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.example.anytimetutor.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:name="com.example.anytimetutor.ui.account_detail.AccountDetailFragment"
+        android:label="Account Details"
+        tools:layout="@layout/fragment_account_detail" />
 
     <fragment
         android:id="@+id/nav_tools"
@@ -32,7 +32,7 @@
     <fragment
         android:id="@+id/nav_share"
         android:name="com.example.anytimetutor.ui.share.ShareFragment"
-        android:label="@string/menu_share"
+        android:label="FAQ"
         tools:layout="@layout/fragment_share" />
 
     <fragment

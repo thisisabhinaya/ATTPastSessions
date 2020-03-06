@@ -59,7 +59,7 @@
 
     <string-array name="preference_items">
         <item>None</item>
-        <item>Web Development</item>
+        <item>WebDevelopment</item>
         <item>AndroidAppDevelopment</item>
         <item>Python</item>
         <item>GRE</item>

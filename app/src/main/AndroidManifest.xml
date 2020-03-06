@@ -16,7 +16,8 @@
         android:roundIcon="@mipmap/ic_app_icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RequestDetailsActivity"></activity>
+        <activity android:name=".TanviProfileActivity"></activity>
+        <activity android:name=".RequestDetailsActivity" />
         <activity android:name=".ViewRequestActivity" />
 
         <service
@@ -32,7 +33,7 @@
 
         <activity
             android:name=".EditTutorProfileActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ScannerActivity"
             android:screenOrientation="portrait" />

@@ -1,4 +1,4 @@
-package com.example.anytimetutor.ui.slideshow;
+package com.example.anytimetutor.ui.account_detail;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

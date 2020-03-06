@@ -1,19 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/text_share"
+    <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/sign_up"
+        android:paddingHorizontal="55dp"
+        android:paddingTop="175dp"
+        android:paddingBottom="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="403dp">
+
+        <LinearLayout
+            android:id="@+id/scanid"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/faq_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_horizontal"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="4"
+                android:text="(1) Can I simultaneously be a tutor and tutee?"
+                android:textAlignment="viewStart"
+                android:textColor="#90D3D6"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/ans_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_horizontal"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="4"
+                android:text="Yes, you teach as well as learn. You can set your tutor profile from the navigation bar."
+                android:textAlignment="viewStart"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/faq_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_horizontal"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="4"
+                android:text="(2) From where can I set subjects I want to teach as a tutor?"
+                android:textAlignment="viewStart"
+                android:textColor="#90D3D6"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/ans_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_horizontal"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="4"
+                android:text="Go to navigation bar followed by tutor profile and edit. You can change your subject preferences here."
+                android:textAlignment="viewStart"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/faq_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_horizontal"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="4"
+                android:text="(3) For how long can I book a tutor?"
+                android:textAlignment="viewStart"
+                android:textColor="#90D3D6"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/ans_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_horizontal"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="4"
+                android:text="1 to 2 hour sessions can be booked through the application. If you require longer slots, you can communicate with the tutor."
+                android:textAlignment="viewStart"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/faq_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_horizontal"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="4"
+                android:text="(4) Can I change my tutor if I am not satisfied?"
+                android:textAlignment="viewStart"
+                android:textColor="#90D3D6"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/ans_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_horizontal"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="4"
+                android:text="Yes you can give a feedback for the tutor and choose a different tutor for the next session."
+                android:textAlignment="viewStart"
+                android:textSize="15dp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <ProgressBar
+        android:visibility="gone"
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
+
 </RelativeLayout>
