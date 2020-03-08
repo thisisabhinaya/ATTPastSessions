@@ -95,7 +95,7 @@ public class RequestDetailsActivity extends AppCompatActivity {
                 Map<String, Object> req = new HashMap<>();
                 req.put(tutor_id, tutor_name);
 
-                ppp.collection("response").document("accepted_by").update(req);
+                ppp.collection("response").document("accepted_by").set(req);
 
                 Toast.makeText(getApplicationContext(), "You have accepted the request..", Toast.LENGTH_LONG).show();
             }

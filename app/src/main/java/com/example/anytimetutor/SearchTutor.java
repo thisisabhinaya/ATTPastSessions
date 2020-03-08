@@ -283,7 +283,7 @@ public class SearchTutor extends AppCompatActivity {
                         .document("users")
                         .collection(id)
                         .document("requests_made")
-                        .update(req);
+                        .set(req1);
 
                 TOPIC = "/topics/"+subject; //topic must match with what the receiver subscribed to
                 NOTIFICATION_TITLE = "Time to Teach!!";
