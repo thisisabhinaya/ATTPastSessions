@@ -30,6 +30,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -135,10 +136,11 @@ public class MainActivity extends AppCompatActivity {
                                 Make them subscribe to their own preferences in case they have logged out before this*/
                                 final User user1 = SharedPrefManager.getInstance(getApplicationContext()).getUser();
                                 final String id = user1.getId();
-                                final String name = user1.getUsername();
+                                //final String name = user1.getUsername();
 
                                 final FirebaseFirestore db = FirebaseFirestore.getInstance();
                                 final CollectionReference pub=db.collection("publishers");
+                                //Get the preferences from tutee/student side
                                 db.collection("publishers")
                                         .document("users")
                                         .collection(id)
@@ -166,11 +168,14 @@ public class MainActivity extends AppCompatActivity {
 
                                             }
                                         });
+                                //Set the preferences for Tutor side of this tutee/student
+                                // i.e make them a subscriber to these preferences
+                                FirebaseMessaging.getInstance().subscribeToTopic("/topics/"+p1);
+                                FirebaseMessaging.getInstance().subscribeToTopic("/topics/"+p2);
+                                FirebaseMessaging.getInstance().subscribeToTopic("/topics/"+p3);
 
 
-
-
-                                                                                     //starting the profile activity
+                                //starting the profile activity
                                 finish();
                                 Intent in = new Intent(getApplicationContext(), StudentHomePage.class);
                                 in.putExtra("first_name",userJson.getString("first_name"));
