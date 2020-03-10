@@ -59,7 +59,7 @@
                     android:textSize="15dp" />
 
                 <TextView
-                    android:id="@+id/textView18"
+                    android:id="@+id/your_req"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"

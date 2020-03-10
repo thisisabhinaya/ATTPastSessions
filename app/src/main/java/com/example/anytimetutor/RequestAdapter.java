@@ -12,6 +12,7 @@ import android.content.Intent;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,12 +22,20 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
     List<String> topic, tutee_name, sess_date, sess_time, sess_status, req_id, subject;
 
     //we are storing all the products in a list
-    private HashMap<String ,List<String>> request_det;
+    private HashMap<String ,List<String>> request_det = new HashMap<>();
 
     //getting the context and product list with constructor
     public RequestAdapter(Context mCtx, HashMap<String, List<String>> request_det) {
         this.mCtx = mCtx;
         this.request_det = request_det;
+       /* this.topic = new ArrayList<>();
+        this.tutee_name = new ArrayList<>();
+        this.sess_date = new ArrayList<>();
+        this.sess_time = new ArrayList<>();
+        this.sess_status = new ArrayList<>();
+        this.subject = new ArrayList<>();
+        this.req_id = new ArrayList<>();*/
+
         this.topic = request_det.get("topic");
         this.tutee_name = request_det.get("tutee_name");
         this.sess_date = request_det.get("sess_date");

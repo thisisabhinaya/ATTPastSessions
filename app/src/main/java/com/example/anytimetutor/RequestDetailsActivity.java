@@ -95,7 +95,7 @@ public class RequestDetailsActivity extends AppCompatActivity {
                 Map<String, Object> req = new HashMap<>();
                 req.put(tutor_id, tutor_name);
 
-                ppp.collection("response").document("accepted_by").set(req);
+                ppp.collection("response").document("accepted_by").update(req);
 
                 Toast.makeText(getApplicationContext(), "You have accepted the request..", Toast.LENGTH_LONG).show();
             }
@@ -104,6 +104,20 @@ public class RequestDetailsActivity extends AppCompatActivity {
         reject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DocumentReference ppp = db.collection("subscribers")
+                        .document(subject)
+                        .collection("requests")
+                        .document(id);
+
+                final User user = SharedPrefManager.getInstance(getApplicationContext()).getUser();
+                final String tutor_id = user.getId();
+                final String tutor_name= user.getUsername();
+
+                Map<String, Object> req = new HashMap<>();
+                req.put(tutor_id, tutor_name);
+
+                ppp.collection("response").document("rejected_by").update(req);
+
                 Toast.makeText(getApplicationContext(), "You have rejected the request..", Toast.LENGTH_LONG).show();
             }
         });
