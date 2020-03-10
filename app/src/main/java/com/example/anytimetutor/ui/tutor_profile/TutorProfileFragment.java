@@ -26,6 +26,7 @@ import com.example.anytimetutor.SupportFiles.SharedPrefManager;
 import com.example.anytimetutor.SupportFiles.URLs;
 import com.example.anytimetutor.SupportFiles.User;
 import com.example.anytimetutor.SupportFiles.VolleySingleton;
+import com.example.anytimetutor.ViewRequestActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,6 +58,14 @@ public class TutorProfileFragment extends Fragment {
             public void onClick(View v) {
                 Intent in = new Intent(getActivity(), EditTutorProfileActivity.class);
                 in.putExtra("bio",bio.getText().toString());
+                startActivity(in);
+            }
+        });
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(getActivity(), ViewRequestActivity.class);
                 startActivity(in);
             }
         });
