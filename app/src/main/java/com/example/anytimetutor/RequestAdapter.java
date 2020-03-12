@@ -82,6 +82,9 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
     public int getItemCount() {
         return topic.size();
     }
+    public void refreshView(int position) {
+        notifyItemChanged(position);
+    }
 
 
     class RequestViewHolder extends RecyclerView.ViewHolder {

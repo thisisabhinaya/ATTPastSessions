@@ -26,6 +26,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class ViewRequestActivity extends AppCompatActivity {
         final TextView blank_req, your_req, ask_to_select;
         blank_req=(TextView)findViewById(R.id.blank_requests);
         your_req=(TextView)findViewById(R.id.your_req);
-        ask_to_select=(TextView)findViewById(R.id.ask_to_select_a_subj);
+
         topic = new ArrayList<>();
         tutee_name = new ArrayList<>();
         sess_date = new ArrayList<>();
@@ -71,6 +72,9 @@ public class ViewRequestActivity extends AppCompatActivity {
         final String id = user.getId();
         final String name = user.getUsername();
         your_req.setVisibility(View.GONE);
+        //a hashmap to store each request tutor has received
+        request_det = new HashMap<String, List<String>>();
+
         //DocumentReference ppp = ;
 
         showProgressDialog();
@@ -95,8 +99,6 @@ public class ViewRequestActivity extends AppCompatActivity {
                         Log.e("p1", p1);
                         Log.e("p2", p2);
                         Log.e("p3", p3);
-                        //a hashmap to store each request tutor has received
-                        request_det = new HashMap<String, List<String>>();
 
                         pref1.setText(p1);
                         pref2.setText(p2);
@@ -104,6 +106,22 @@ public class ViewRequestActivity extends AppCompatActivity {
                             request_API.document(p1).collection("requests").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                 @Override
                                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                    if (queryDocumentSnapshots.isEmpty()) {
+
+                                        your_req.setVisibility(View.GONE);
+                                        blank_req.setVisibility(View.VISIBLE);
+
+                                        flag_empty = true;
+                                        recyclerView.invalidate();
+                                        recyclerView.setVisibility(View.GONE);
+                                        //Toast.makeText(getApplicationContext(), "There are no session requests for this",Toast.LENGTH_LONG).show();
+
+                                    } else {
+
+                                        your_req.setVisibility(View.VISIBLE);
+                                        blank_req.setVisibility(View.GONE);
+                                        recyclerView.setVisibility(View.VISIBLE);
+
                                         for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                                             String top = (String) documentSnapshot.get("topic");
                                             String name = (String) documentSnapshot.get("stud_name");
@@ -121,6 +139,13 @@ public class ViewRequestActivity extends AppCompatActivity {
                                             req_id.add(id);
 
                                         }
+                                        //to show recent requests first
+                                        Collections.reverse(topic);
+                                        Collections.reverse(tutee_name);
+                                        Collections.reverse(sess_date);
+                                        Collections.reverse(sess_time);
+                                        Collections.reverse(sess_status);
+                                        Collections.reverse(req_id);
 
                                         request_det.put("topic", topic);
                                         request_det.put("tutee_name", tutee_name);
@@ -132,9 +157,12 @@ public class ViewRequestActivity extends AppCompatActivity {
 
                                         //creating recyclerview adapter
                                         RequestAdapter adapter = new RequestAdapter(getApplicationContext(), request_det);
+                                        //to clear adapter
+                                        adapter.notifyDataSetChanged();
 
                                         //setting adapter to recyclerview
                                         recyclerView.setAdapter(adapter);
+                                    }
                                 }
                             });
                         }
@@ -152,7 +180,7 @@ public class ViewRequestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showProgressDialog();
-                    ask_to_select.setVisibility(View.GONE);
+
                 topic = new ArrayList<>();
                 tutee_name = new ArrayList<>();
                 sess_date = new ArrayList<>();
@@ -160,6 +188,8 @@ public class ViewRequestActivity extends AppCompatActivity {
                 sess_status = new ArrayList<>();
                 subject = new ArrayList<>();
                 req_id = new ArrayList<>();
+                //a hashmap to store each request tutor has received
+                request_det = new HashMap<String, List<String>>();
 
                 request_API.document(p1).collection("requests").get()
                         .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -174,6 +204,8 @@ public class ViewRequestActivity extends AppCompatActivity {
                         blank_req.setVisibility(View.VISIBLE);
 
                         flag_empty = true;
+                        recyclerView.invalidate();
+                        recyclerView.setVisibility(View.GONE);
                         //Toast.makeText(getApplicationContext(), "There are no session requests for this",Toast.LENGTH_LONG).show();
 
                     }
@@ -182,6 +214,7 @@ public class ViewRequestActivity extends AppCompatActivity {
 
                     your_req.setVisibility(View.VISIBLE);
                     blank_req.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
 
 
                     for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
@@ -201,13 +234,14 @@ public class ViewRequestActivity extends AppCompatActivity {
                         sess_time.add(time);
                         sess_status.add(status);
                         req_id.add(id);
+//to show recent requests first
+                        Collections.reverse(topic);
+                        Collections.reverse(tutee_name);
+                        Collections.reverse(sess_date);
+                        Collections.reverse(sess_time);
+                        Collections.reverse(sess_status);
+                        Collections.reverse(req_id);
 
-                        /*}
-                    }
-                        if(flag_empty==true);//dont set adapter because there are no requests
-                        else
-                        {*/
-                        //there are requests for this so set adapter for each request
                         request_det.put("topic", topic);
                         request_det.put("tutee_name", tutee_name);
                         request_det.put("sess_date", sess_date);
@@ -218,10 +252,13 @@ public class ViewRequestActivity extends AppCompatActivity {
 
                         //creating recyclerview adapter
                         RequestAdapter adapter = new RequestAdapter(getApplicationContext(), request_det);
-
+                        //to clear adapter
+                        adapter.notifyDataSetChanged();
+                        //recyclerView.invalidate();
                         //setting adapter to recyclerview
                         recyclerView.setAdapter(adapter);
-                        }
+
+                    }
                     }
                 }
 
@@ -243,7 +280,7 @@ public class ViewRequestActivity extends AppCompatActivity {
         pref2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ask_to_select.setVisibility(View.GONE);
+
                 showProgressDialog();
                 topic = new ArrayList<>();
                 tutee_name = new ArrayList<>();
@@ -252,6 +289,8 @@ public class ViewRequestActivity extends AppCompatActivity {
                 sess_status = new ArrayList<>();
                 subject = new ArrayList<>();
                 req_id = new ArrayList<>();
+                //a hashmap to store each request tutor has received
+                request_det = new HashMap<String, List<String>>();
 
                 request_API.document(p2).collection("requests").get()
                         .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -263,6 +302,8 @@ public class ViewRequestActivity extends AppCompatActivity {
                             your_req.setVisibility(View.GONE);
                             blank_req.setVisibility(View.VISIBLE);
                             flag_empty = true;
+                            recyclerView.invalidate();
+                            recyclerView.setVisibility(View.GONE);
                             //Toast.makeText(getApplicationContext(), "There are no session requests for this",Toast.LENGTH_LONG).show();
 
                         }
@@ -270,7 +311,7 @@ public class ViewRequestActivity extends AppCompatActivity {
                             {
                             your_req.setVisibility(View.VISIBLE);
                             blank_req.setVisibility(View.GONE);
-
+                                recyclerView.setVisibility(View.VISIBLE);
                             for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                                 hideProgressDialog();
                                 String top = (String) documentSnapshot.get("topic");
@@ -288,11 +329,15 @@ public class ViewRequestActivity extends AppCompatActivity {
                                 sess_status.add(status);
                                 req_id.add(id);
 
-                            /*}
-                        }
-                            if (flag_empty == true) ;//dont set adapter because there are no requests
-                            else {
-                            //there are requests for this so set adapter for each request*/
+                                //to show recent requests first
+                                Collections.reverse(topic);
+                                Collections.reverse(tutee_name);
+                                Collections.reverse(sess_date);
+                                Collections.reverse(sess_time);
+                                Collections.reverse(sess_status);
+                                Collections.reverse(req_id);
+
+                                //there are requests for this so set adapter for each request*/
                                 request_det.put("topic", topic);
                                 request_det.put("tutee_name", tutee_name);
                                 request_det.put("sess_date", sess_date);
@@ -303,9 +348,12 @@ public class ViewRequestActivity extends AppCompatActivity {
 
                                 //creating recyclerview adapter
                                 RequestAdapter adapter = new RequestAdapter(getApplicationContext(), request_det);
-
+                                //to clear adapter
+                                adapter.notifyDataSetChanged();
+                                //recyclerView.invalidate();
                                 //setting adapter to recyclerview
                                 recyclerView.setAdapter(adapter);
+
 
 
                             }
@@ -333,7 +381,7 @@ public class ViewRequestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                ask_to_select.setVisibility(View.GONE);
+
                 showProgressDialog();
                 topic = new ArrayList<>();
                 tutee_name = new ArrayList<>();
@@ -342,6 +390,8 @@ public class ViewRequestActivity extends AppCompatActivity {
                 sess_status = new ArrayList<>();
                 subject = new ArrayList<>();
                 req_id = new ArrayList<>();
+                //a hashmap to store each request tutor has received
+                request_det = new HashMap<String, List<String>>();
 
                 request_API.document(p3).collection("requests").get()
                         .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -356,12 +406,14 @@ public class ViewRequestActivity extends AppCompatActivity {
                             blank_req.setVisibility(View.VISIBLE);
 
                             flag_empty = true;
+                            recyclerView.invalidate();
+                            recyclerView.setVisibility(View.GONE);
                             //Toast.makeText(getApplicationContext(), "There are no session requests for this",Toast.LENGTH_LONG).show();
 
                         } else {
                             your_req.setVisibility(View.VISIBLE);
                             blank_req.setVisibility(View.GONE);
-
+                            recyclerView.setVisibility(View.VISIBLE);
                             for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                                 String top = (String) documentSnapshot.get("topic");
                                 String name = (String) documentSnapshot.get("stud_name");
@@ -377,13 +429,15 @@ public class ViewRequestActivity extends AppCompatActivity {
                                 sess_time.add(time);
                                 sess_status.add(status);
                                 req_id.add(id);
+//to show recent requests first
+                                Collections.reverse(topic);
+                                Collections.reverse(tutee_name);
+                                Collections.reverse(sess_date);
+                                Collections.reverse(sess_time);
+                                Collections.reverse(sess_status);
+                                Collections.reverse(req_id);
 
-                            /*}
-                        }
-                            if (flag_empty == true);//dont set adapter because there are no requests
-                            else {*/
                                 //there are requests for this so set adapter for each request
-
 
                                 request_det.put("topic", topic);
                                 request_det.put("tutee_name", tutee_name);
@@ -395,9 +449,13 @@ public class ViewRequestActivity extends AppCompatActivity {
 
                                 //creating recyclerview adapter
                                 RequestAdapter adapter = new RequestAdapter(getApplicationContext(), request_det);
+                                //to clear adapter
 
+                                adapter.notifyDataSetChanged();
+                                //recyclerView.invalidate();
                                 //setting adapter to recyclerview
                                 recyclerView.setAdapter(adapter);
+
                             }
                         }
 

@@ -41,14 +41,6 @@
         android:layout_below="@+id/choice">
 
         <TextView
-            android:id="@+id/ask_to_select_a_subj"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Select subject to view requests"
-            android:textSize="24sp"
-            tools:layout_editor_absoluteY="67dp" />
-
-        <TextView
             android:id="@+id/your_req"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -71,7 +63,8 @@
             android:layout_height="match_parent"
             android:layout_marginStart="6dp"
             android:layout_marginTop="38dp"
-            android:scrollbars="vertical">
+            android:scrollbars="vertical"
+            >
 
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
