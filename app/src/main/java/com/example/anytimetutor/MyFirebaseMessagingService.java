@@ -31,9 +31,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        final Intent intent = new Intent(this, RequestDetailsActivity.class);
-        intent.putExtra("id",remoteMessage.getData().get("id"));
-        intent.putExtra("subject",remoteMessage.getData().get("subject"));
+        final Intent intent = new Intent(this, ViewRequestActivity.class);
+        //intent.putExtra("id",remoteMessage.getData().get("id"));
+        //intent.putExtra("subject",remoteMessage.getData().get("subject"));
         NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         int notificationID = new Random().nextInt(3000);
 

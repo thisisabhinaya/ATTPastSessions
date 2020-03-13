@@ -9,8 +9,8 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.anytimetutor.SupportFiles.SharedPrefManager;
@@ -20,14 +20,20 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ViewRequestActivity extends AppCompatActivity {
 
@@ -36,12 +42,40 @@ public class ViewRequestActivity extends AppCompatActivity {
     Button pref1,pref2,pref3;
     public ProgressDialog mProgressDialog;
     HashMap<String, List<String>> request_det;
-    List<String> topic, tutee_name, sess_date, sess_time, sess_status, req_id, subject;
+    List<String> topic, tutee_name, sess_date, sess_time, sess_status, req_id, subject, accept_stat;
+    Map<String, Object> accept_id;
+    Map<String,Object> reject_id;
+    List<Date> date_sort;
+    public boolean flag_empty=false;
+    CollectionReference request_API;
+    TextView blank_req, your_req;
+
+    User user;
+    String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_request);
+        blank_req=(TextView)findViewById(R.id.blank_requests);
+        your_req=(TextView)findViewById(R.id.your_req);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        user = SharedPrefManager.getInstance(getApplicationContext()).getUser();
+        id = user.getId();
+
+        topic = new ArrayList<>();
+        tutee_name = new ArrayList<>();
+        sess_date = new ArrayList<>();
+        sess_time = new ArrayList<>();
+        sess_status = new ArrayList<>();
+        subject = new ArrayList<>();
+        req_id = new ArrayList<>();
+        date_sort = new ArrayList<>();
+        accept_stat = new ArrayList<>();
+        accept_id = new HashMap<String,Object>();
+        reject_id = new HashMap<String,Object>();
 
         pref1 = (Button) findViewById(R.id.pref1);
         pref2 = (Button) findViewById(R.id.pref2);
@@ -53,15 +87,53 @@ public class ViewRequestActivity extends AppCompatActivity {
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        final CollectionReference request_API = db.collection("subscribers");//.document(p1).collection("requests");
+        request_API = db.collection("subscribers");
 
-        final User user = SharedPrefManager.getInstance(getApplicationContext()).getUser();
-        final String id = user.getId();
-        final String name = user.getUsername();
+        your_req.setVisibility(View.GONE);
+        //a hashmap to store each request tutor has received
+        request_det = new HashMap<String, List<String>>();
 
         //DocumentReference ppp = ;
 
         showProgressDialog();
+
+        db.collection("publishers")
+                .document("users")
+                .collection(id)
+                .document("requests_accepted")
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    // Document found in the offline cache
+                    DocumentSnapshot document = task.getResult();
+                    if(document.getData()!=null)
+                        accept_id = document.getData();
+                        Log.e("data", "Cached document data: " + accept_id);
+                } else {
+                    //Log.d(TAG, "Cached get failed: ", task.getException());
+                }
+            }
+        });
+
+        db.collection("publishers")
+                .document("users")
+                .collection(id)
+                .document("requests_rejected")
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    // Document found in the offline cache
+                    DocumentSnapshot document = task.getResult();
+                    if(document.getData()!=null)
+                        reject_id = document.getData();
+                        Log.e("data", "Cached document data: " + reject_id);
+                } else {
+                    //Log.d(TAG, "Cached get failed: ", task.getException());
+                }
+            }
+        });
 
         db.collection("publishers")
                 .document("users")
@@ -80,28 +152,184 @@ public class ViewRequestActivity extends AppCompatActivity {
                         p2 = doc.get("pref2").toString();
                         p3 = doc.get("pref3").toString();
 
-                        Log.e("p1",p1);
-                        Log.e("p2",p2);
-                        Log.e("p3",p3);
-
-                        request_det = new HashMap<String, List<String>>();
+                        Log.e("p1", p1);
+                        Log.e("p2", p2);
+                        Log.e("p3", p3);
 
                         pref1.setText(p1);
                         pref2.setText(p2);
                         pref3.setText(p3);
+                            request_API.document(p1).collection("requests").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                @Override
+                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                    if (queryDocumentSnapshots.isEmpty()) {
 
-                        request_API.document(p1).collection("requests").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                            @Override
-                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots)
-                                {
+                                        your_req.setVisibility(View.GONE);
+                                        blank_req.setVisibility(View.VISIBLE);
+
+                                        flag_empty = true;
+                                        recyclerView.invalidate();
+                                        recyclerView.setVisibility(View.GONE);
+                                        //Toast.makeText(getApplicationContext(), "There are no session requests for this",Toast.LENGTH_LONG).show();
+
+                                    } else {
+
+                                        your_req.setVisibility(View.VISIBLE);
+                                        blank_req.setVisibility(View.GONE);
+                                        recyclerView.setVisibility(View.VISIBLE);
+
+                                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+
+                                            if(documentSnapshot.get("status").equals("pending") && !documentSnapshot.get("stud_id").equals(id)) {
+                                                String top = (String) documentSnapshot.get("topic");
+                                                String name = (String) documentSnapshot.get("stud_name");
+                                                String date = (String) documentSnapshot.get("date");
+                                                String time = (String) documentSnapshot.get("time");
+                                                String status = (String) documentSnapshot.get("status");
+                                                String datetime = (String) documentSnapshot.get("date_time");
+                                                String id = (String) documentSnapshot.getId();
+                                                subject.add(p1);
+
+                                                /*Date d = null;
+                                                SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+                                                try {
+                                                    d = df.parse(datetime);
+                                                    Log.e("datetime", String.valueOf(d));
+                                                } catch (ParseException ex) {
+                                                    Log.v("Exception", ex.getLocalizedMessage());
+                                                }*/
+
+                                                if(accept_id.containsKey(id))
+                                                    accept_stat.add("accepted");
+                                                else if(reject_id.containsKey(id))
+                                                    accept_stat.add("rejected");
+                                                else
+                                                    accept_stat.add("null");
+
+                                                topic.add(top);
+                                                //date_sort.add(d);
+                                                tutee_name.add(name);
+                                                sess_date.add(date);
+                                                sess_time.add(time);
+                                                sess_status.add(status);
+                                                req_id.add(id);
+                                            }
+
+                                        }
+
+                                        //to show recent requests first
+                                        Collections.reverse(topic);
+                                        Collections.reverse(tutee_name);
+                                        Collections.reverse(sess_date);
+                                        Collections.reverse(sess_time);
+                                        Collections.reverse(sess_status);
+                                        Collections.reverse(req_id);
+                                        Collections.reverse(accept_stat);
+
+                                        request_det.put("topic", topic);
+                                        request_det.put("tutee_name", tutee_name);
+                                        request_det.put("sess_date", sess_date);
+                                        request_det.put("sess_time", sess_time);
+                                        request_det.put("sess_status", sess_status);
+                                        request_det.put("req_id", req_id);
+                                        request_det.put("subject", subject);
+                                        request_det.put("accept_stat", accept_stat);
+
+                                        //creating recyclerview adapter
+                                        RequestAdapter adapter = new RequestAdapter(getApplicationContext(), request_det);
+                                        //to clear adapter
+                                        adapter.notifyDataSetChanged();
+
+                                        //setting adapter to recyclerview
+                                        recyclerView.setAdapter(adapter);
+                                    }
+                                }
+                            });
+                        }
+                }
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+
+        pref1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showProgressDialog();
+                get_requests(p1);
+
+            }
+        });
+
+        pref2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                showProgressDialog();
+                get_requests(p2);
+            }
+        });
+
+        pref3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                showProgressDialog();
+                get_requests(p3);
+            }
+        });
+    }
+
+    public void get_requests(final String preference)
+    {
+        topic = new ArrayList<>();
+        tutee_name = new ArrayList<>();
+        sess_date = new ArrayList<>();
+        sess_time = new ArrayList<>();
+        sess_status = new ArrayList<>();
+        subject = new ArrayList<>();
+        req_id = new ArrayList<>();
+        date_sort = new ArrayList<>();
+
+        //a hashmap to store each request tutor has received
+        request_det = new HashMap<String, List<String>>();
+
+        request_API.document(preference).collection("requests").get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        hideProgressDialog();
+                        flag_empty = false;
+
+
+                        if (queryDocumentSnapshots.isEmpty()) {
+                            your_req.setVisibility(View.GONE);
+                            blank_req.setVisibility(View.VISIBLE);
+
+                            flag_empty = true;
+                            recyclerView.invalidate();
+                            recyclerView.setVisibility(View.GONE);
+                            //Toast.makeText(getApplicationContext(), "There are no session requests for this",Toast.LENGTH_LONG).show();
+
+                        } else {
+                            your_req.setVisibility(View.VISIBLE);
+                            blank_req.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                hideProgressDialog();
+                                if (documentSnapshot.get("status").equals("pending") && !documentSnapshot.get("stud_id").equals(id)) {
+
                                     String top = (String) documentSnapshot.get("topic");
                                     String name = (String) documentSnapshot.get("stud_name");
                                     String date = (String) documentSnapshot.get("date");
                                     String time = (String) documentSnapshot.get("time");
                                     String status = (String) documentSnapshot.get("status");
                                     String id = (String) documentSnapshot.getId();
-                                    subject.add(p1);
+                                    subject.add(preference);
 
                                     topic.add(top);
                                     tutee_name.add(name);
@@ -109,93 +337,51 @@ public class ViewRequestActivity extends AppCompatActivity {
                                     sess_time.add(time);
                                     sess_status.add(status);
                                     req_id.add(id);
-
                                 }
                             }
+                            //to show recent requests first
+                            Collections.reverse(topic);
+                            Collections.reverse(tutee_name);
+                            Collections.reverse(sess_date);
+                            Collections.reverse(sess_time);
+                            Collections.reverse(sess_status);
+                            Collections.reverse(req_id);
 
-                        });
-                        request_det.put("topic", topic);
-                        request_det.put("tutee_name", tutee_name);
-                        request_det.put("sess_date", sess_date);
-                        request_det.put("sess_time", sess_time);
-                        request_det.put("sess_status", sess_status);
-                        request_det.put("id", req_id);
-                        request_det.put("subject", subject);
+                            //there are requests for this so set adapter for each request
 
-                        //creating recyclerview adapter
-                        RequestAdapter adapter = new RequestAdapter(getApplicationContext(), request_det);
+                            request_det.put("topic", topic);
+                            request_det.put("tutee_name", tutee_name);
+                            request_det.put("sess_date", sess_date);
+                            request_det.put("sess_time", sess_time);
+                            request_det.put("sess_status", sess_status);
+                            request_det.put("req_id", req_id);
+                            request_det.put("subject", subject);
 
-                        //setting adapter to recyclerview
-                        recyclerView.setAdapter(adapter);
+                            //creating recyclerview adapter
+                            RequestAdapter adapter = new RequestAdapter(getApplicationContext(), request_det);
+                            //to clear adapter
+
+                            adapter.notifyDataSetChanged();
+                            //recyclerView.invalidate();
+                            //setting adapter to recyclerview
+                            recyclerView.setAdapter(adapter);
+
+                        }
+
+
                     }
-                }
-            }
-        })
+
+                })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        hideProgressDialog();
+                        Log.e("Couldn't connect", "Couldn't connect");
+                        Toast.makeText(getApplicationContext(), "Couldn't connect",
+                                Toast.LENGTH_LONG).show();
+
                     }
                 });
-
-        pref1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                db.collection("subscribers").document(p1).collection("requests")
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        Log.d("data", document.getId() + " => " + document.getData());
-                                    }
-                                } else {
-                                    //Log.w(TAG, "Error getting documents.", task.getException());
-                                }
-                            }
-                        });
-            }
-        });
-
-        pref2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                db.collection("subscribers").document(p2).collection("requests")
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        //Log.d(TAG, document.getId() + " => " + document.getData());
-                                    }
-                                } else {
-                                    //Log.w(TAG, "Error getting documents.", task.getException());
-                                }
-                            }
-                        });
-            }
-        });
-
-        pref3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                db.collection("subscribers").document(p3).collection("requests")
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        //Log.d(TAG, document.getId() + " => " + document.getData());
-                                    }
-                                } else {
-                                    //Log.w(TAG, "Error getting documents.", task.getException());
-                                }
-                            }
-                        });
-            }
-        });
     }
 
     public void showProgressDialog() {
@@ -214,5 +400,11 @@ public class ViewRequestActivity extends AppCompatActivity {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

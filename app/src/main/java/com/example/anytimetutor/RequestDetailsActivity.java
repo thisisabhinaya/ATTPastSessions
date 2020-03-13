@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -19,13 +20,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class RequestDetailsActivity extends AppCompatActivity {
 
-    String id,subject;
+    String id,subject, accept_stat;
     TextView stud_name, email, date, time, duration, topic, venue, sess_type, incentive;
     Button accept, reject;
 
@@ -33,6 +35,7 @@ public class RequestDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_details);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         stud_name = (TextView) findViewById(R.id.stud_name);
         email = (TextView) findViewById(R.id.email);
@@ -49,6 +52,28 @@ public class RequestDetailsActivity extends AppCompatActivity {
         Intent in = getIntent();
         id = in.getStringExtra("id");
         subject = in.getStringExtra("subject");
+        accept_stat = in.getStringExtra("accept_stat");
+
+        if(accept_stat.equals("accepted"))
+        {
+            accept.setEnabled(false);
+            reject.setEnabled(false);
+            reject.setVisibility(View.GONE);
+            accept.setText("ACCEPTED");
+            accept.setBackgroundColor(Color.GREEN);
+            reject.setBackgroundColor(Color.GRAY);
+        } else if(accept_stat.equals("rejected"))
+        {
+            accept.setEnabled(false);
+            reject.setEnabled(false);
+            reject.setText("REJECTED");
+            accept.setVisibility(View.GONE);
+            reject.setBackgroundColor(Color.RED);
+            accept.setBackgroundColor(Color.GRAY);
+        }
+
+        final User user = SharedPrefManager.getInstance(getApplicationContext()).getUser();
+        final String stud_id = user.getId();
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -95,7 +120,15 @@ public class RequestDetailsActivity extends AppCompatActivity {
                 Map<String, Object> req = new HashMap<>();
                 req.put(tutor_id, tutor_name);
 
-                ppp.collection("response").document("accepted_by").set(req);
+                Map<String, Object> req2 = new HashMap<>();
+                req2.put(id, subject);
+
+                db.collection("publishers")
+                        .document("users")
+                        .collection(stud_id)
+                        .document("requests_accepted").set(req2,SetOptions.merge());
+
+                ppp.collection("response").document("accepted_by").set(req, SetOptions.merge());
 
                 Toast.makeText(getApplicationContext(), "You have accepted the request..", Toast.LENGTH_LONG).show();
             }
@@ -104,8 +137,36 @@ public class RequestDetailsActivity extends AppCompatActivity {
         reject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DocumentReference ppp = db.collection("subscribers")
+                        .document(subject)
+                        .collection("requests")
+                        .document(id);
+
+                final User user = SharedPrefManager.getInstance(getApplicationContext()).getUser();
+                final String tutor_id = user.getId();
+                final String tutor_name= user.getUsername();
+
+                Map<String, Object> req = new HashMap<>();
+                req.put(tutor_id, tutor_name);
+
+                Map<String, Object> req2 = new HashMap<>();
+                req2.put(id, subject);
+
+                db.collection("publishers")
+                        .document("users")
+                        .collection(stud_id)
+                        .document("requests_rejected").set(req2,SetOptions.merge());
+
+                ppp.collection("response").document("rejected_by").set(req, SetOptions.merge());
+
                 Toast.makeText(getApplicationContext(), "You have rejected the request..", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

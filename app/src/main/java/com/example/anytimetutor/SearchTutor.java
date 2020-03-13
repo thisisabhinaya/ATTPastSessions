@@ -33,6 +33,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONException;
@@ -49,7 +50,7 @@ import java.util.Map;
 public class SearchTutor extends AppCompatActivity {
 
     String category;
-    String subject;
+    String subject, datetimestr="", datestr="",timestr = "";
     String topic, format, p1,p2,p3;
     int radioButtonID,idx;
     View radioButton;
@@ -114,6 +115,15 @@ public class SearchTutor extends AppCompatActivity {
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                String month="";
+                if(monthOfYear<10)
+                {
+                    month = "0"+(monthOfYear+1);
+                }
+                else
+                    month = String.valueOf(monthOfYear+1);
+                datestr = year+""+(month)+""+dayOfMonth;
+                Log.e("date", datetimestr);
                 updateLabel();
             }
 
@@ -138,7 +148,7 @@ public class SearchTutor extends AppCompatActivity {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 Calendar mcurrentTime = Calendar.getInstance();
-                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                final int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
                 int minute = mcurrentTime.get(Calendar.MINUTE);
                 TimePickerDialog mTimePicker;
                 mTimePicker = new TimePickerDialog(SearchTutor.this,
@@ -160,7 +170,25 @@ public class SearchTutor extends AppCompatActivity {
                                 else {
                                     format = "AM";
                                 }
-                                e_time.setText(hourOfDay + ":" + minute + format);
+                                String hrs="";
+                                if(hourOfDay<10)
+                                {
+                                    hrs = "0"+(hourOfDay);
+                                }
+                                else
+                                    hrs = String.valueOf(hourOfDay);
+
+                                String min="";
+                                if(minute<10)
+                                {
+                                    min = "0"+(minute);
+                                }
+                                else
+                                    min = String.valueOf(minute);
+
+                                Log.e("time",hrs + ":" + min + format);
+                                timestr = hrs+""+min+"00";
+                                e_time.setText(hourOfDay + ":" + min + format);
                             }
                         }, hour, minute, false);
 
@@ -269,6 +297,12 @@ public class SearchTutor extends AppCompatActivity {
                 req.put("incentive", i);
                 req.put("status", "pending");
                 req.put("timestamp", ts.toString());
+                datetimestr=datestr+timestr;
+                Log.e("datetimestr",datetimestr);
+                req.put("date_time", datetimestr);
+
+
+
 
                 db.collection("subscribers")
                         .document(subject)
@@ -283,7 +317,7 @@ public class SearchTutor extends AppCompatActivity {
                         .document("users")
                         .collection(id)
                         .document("requests_made")
-                        .set(req1);
+                        .set(req1, SetOptions.merge());
 
                 TOPIC = "/topics/"+subject; //topic must match with what the receiver subscribed to
                 NOTIFICATION_TITLE = "Time to Teach!!";

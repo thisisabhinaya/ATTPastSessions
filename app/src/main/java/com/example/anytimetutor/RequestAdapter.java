@@ -1,9 +1,12 @@
 package com.example.anytimetutor;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.content.Intent;
 
@@ -17,7 +20,7 @@ import java.util.List;
 public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestViewHolder>{
     //this context we will use to inflate the layout
     private Context mCtx;
-    List<String> topic, tutee_name, sess_date, sess_time, sess_status, req_id, subject;
+    List<String> topic, tutee_name, sess_date, sess_time, sess_status, req_id, subject, accept_stat;
 
     //we are storing all the products in a list
     private HashMap<String ,List<String>> request_det = new HashMap<>();
@@ -26,13 +29,13 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
     public RequestAdapter(Context mCtx, HashMap<String, List<String>> request_det) {
         this.mCtx = mCtx;
         this.request_det = request_det;
-        this.topic = new ArrayList<>();
+       /* this.topic = new ArrayList<>();
         this.tutee_name = new ArrayList<>();
         this.sess_date = new ArrayList<>();
         this.sess_time = new ArrayList<>();
         this.sess_status = new ArrayList<>();
         this.subject = new ArrayList<>();
-        this.req_id = new ArrayList<>();
+        this.req_id = new ArrayList<>();*/
 
         this.topic = request_det.get("topic");
         this.tutee_name = request_det.get("tutee_name");
@@ -41,6 +44,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
         this.sess_status = request_det.get("sess_status");
         this.subject = request_det.get("subject");
         this.req_id = request_det.get("req_id");
+        this.accept_stat = request_det.get("accept_stat");
     }
 
     @Override
@@ -63,12 +67,22 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
         holder.id.setText(req_id.get(position));
         holder.subject.setText(subject.get(position));
 
+        if(accept_stat.get(position).equals("accepted"))
+        {
+            holder.request.setCardBackgroundColor(Color.GREEN);
+        } else if(accept_stat.get(position).equals("rejected"))
+        {
+            holder.request.setCardBackgroundColor(Color.RED);
+        }
+
         holder.request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent in = new Intent(mCtx, RequestDetailsActivity.class);
                 in.putExtra("id",req_id.get(position));
                 in.putExtra("subject",subject.get(position));
+                in.putExtra("accept_stat",accept_stat.get(position));
+                in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mCtx.startActivity(in);
             }
         });
@@ -79,6 +93,9 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
     @Override
     public int getItemCount() {
         return topic.size();
+    }
+    public void refreshView(int position) {
+        notifyItemChanged(position);
     }
 
 

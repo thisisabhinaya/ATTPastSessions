@@ -1,5 +1,6 @@
 package com.example.anytimetutor;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -22,6 +23,14 @@ import com.example.anytimetutor.SupportFiles.SharedPrefManager;
 import com.example.anytimetutor.SupportFiles.URLs;
 import com.example.anytimetutor.SupportFiles.User;
 import com.example.anytimetutor.SupportFiles.VolleySingleton;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     Button b_login;
     TextView t_register;
     ProgressBar progressBar;
+    String p1,p2,p3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +132,48 @@ public class MainActivity extends AppCompatActivity {
 
                                 //storing the user in shared preferences
                                 SharedPrefManager.getInstance(getApplicationContext()).userLogin(user);
+                                /*
+                                Make them subscribe to their own preferences in case they have logged out before this*/
+                                final User user1 = SharedPrefManager.getInstance(getApplicationContext()).getUser();
+                                final String id = user1.getId();
+                                //final String name = user1.getUsername();
+
+                                final FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                final CollectionReference pub=db.collection("publishers");
+                                //Get the preferences from tutee/student side
+                                db.collection("publishers")
+                                        .document("users")
+                                        .collection(id)
+                                        .document("personal_info")
+                                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>()
+                                            {
+                                             @Override
+                                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                 if (task.isSuccessful()) {
+                                                     DocumentSnapshot doc = task.getResult();
+                                                     if (doc.get("pref1") != null) {
+                                                         p1 = doc.get("pref1").toString();
+                                                         p2 = doc.get("pref2").toString();
+                                                         p3 = doc.get("pref3").toString();
+                                                         Log.e("p1", p1);
+                                                         Log.e("p2", p2);
+                                                         Log.e("p3", p3);
+                                                     }
+                                                 }
+                                             }
+                                         })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+
+                                            }
+                                        });
+                                //Set the preferences for Tutor side of this tutee/student
+                                // i.e make them a subscriber to these preferences
+                                FirebaseMessaging.getInstance().subscribeToTopic("/topics/"+p1);
+                                FirebaseMessaging.getInstance().subscribeToTopic("/topics/"+p2);
+                                FirebaseMessaging.getInstance().subscribeToTopic("/topics/"+p3);
+
 
                                 //starting the profile activity
                                 finish();

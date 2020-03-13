@@ -226,6 +226,10 @@ public class EditTutorProfileActivity extends AppCompatActivity {
                     pref.put("pref2", np2);
                     pref.put("pref3", np3);
 
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic("/topics/"+p1.replaceAll(" ", ""));
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic("/topics/"+p2.replaceAll(" ", ""));
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic("/topics/"+p3.replaceAll(" ", ""));
+
                     FirebaseMessaging.getInstance().subscribeToTopic("/topics/"+np1.replaceAll(" ", ""));
                     FirebaseMessaging.getInstance().subscribeToTopic("/topics/"+np2.replaceAll(" ", ""));
                     FirebaseMessaging.getInstance().subscribeToTopic("/topics/"+np3.replaceAll(" ", ""));
