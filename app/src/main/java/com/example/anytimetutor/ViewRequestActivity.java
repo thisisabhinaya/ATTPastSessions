@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.anytimetutor.SupportFiles.RequestAdapter;
 import com.example.anytimetutor.SupportFiles.SharedPrefManager;
 import com.example.anytimetutor.SupportFiles.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,11 +26,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -38,20 +36,23 @@ import java.util.Map;
 public class ViewRequestActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    String p1,p2,p3;
-    Button pref1,pref2,pref3;
     public ProgressDialog mProgressDialog;
-    HashMap<String, List<String>> request_det;
-    List<String> topic, tutee_name, sess_date, sess_time, sess_status, req_id, subject, accept_stat;
-    Map<String, Object> accept_id;
-    Map<String,Object> reject_id;
-    List<Date> date_sort;
-    public boolean flag_empty=false;
-    CollectionReference request_API;
+    Button pref1,pref2,pref3;
     TextView blank_req, your_req;
 
+    CollectionReference request_API;
+
+    public boolean flag_empty=false;
+    String p1,p2,p3;
     User user;
     String id;
+
+    HashMap<String, List<String>> request_det;
+    Map<String, Object> accept_id;
+    Map<String,Object> reject_id;
+
+    List<String> topic, tutee_name, sess_date, sess_time, sess_status, req_id, subject, accept_stat;
+    List<Date> date_sort;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +91,7 @@ public class ViewRequestActivity extends AppCompatActivity {
         request_API = db.collection("subscribers");
 
         your_req.setVisibility(View.GONE);
+
         //a hashmap to store each request tutor has received
         request_det = new HashMap<String, List<String>>();
 
@@ -236,7 +238,7 @@ public class ViewRequestActivity extends AppCompatActivity {
                                         request_det.put("accept_stat", accept_stat);
 
                                         //creating recyclerview adapter
-                                        RequestAdapter adapter = new RequestAdapter(getApplicationContext(), request_det);
+                                        RequestAdapter adapter = new RequestAdapter(getApplicationContext(), request_det, "tutor profile");
                                         //to clear adapter
                                         adapter.notifyDataSetChanged();
 
@@ -294,6 +296,7 @@ public class ViewRequestActivity extends AppCompatActivity {
         subject = new ArrayList<>();
         req_id = new ArrayList<>();
         date_sort = new ArrayList<>();
+        accept_stat = new ArrayList<>();
 
         //a hashmap to store each request tutor has received
         request_det = new HashMap<String, List<String>>();
@@ -331,6 +334,13 @@ public class ViewRequestActivity extends AppCompatActivity {
                                     String id = (String) documentSnapshot.getId();
                                     subject.add(preference);
 
+                                    if(accept_id.containsKey(id))
+                                        accept_stat.add("accepted");
+                                    else if(reject_id.containsKey(id))
+                                        accept_stat.add("rejected");
+                                    else
+                                        accept_stat.add("null");
+
                                     topic.add(top);
                                     tutee_name.add(name);
                                     sess_date.add(date);
@@ -346,6 +356,7 @@ public class ViewRequestActivity extends AppCompatActivity {
                             Collections.reverse(sess_time);
                             Collections.reverse(sess_status);
                             Collections.reverse(req_id);
+                            Collections.reverse(accept_stat);
 
                             //there are requests for this so set adapter for each request
 
@@ -356,9 +367,10 @@ public class ViewRequestActivity extends AppCompatActivity {
                             request_det.put("sess_status", sess_status);
                             request_det.put("req_id", req_id);
                             request_det.put("subject", subject);
+                            request_det.put("accept_stat", accept_stat);
 
                             //creating recyclerview adapter
-                            RequestAdapter adapter = new RequestAdapter(getApplicationContext(), request_det);
+                            RequestAdapter adapter = new RequestAdapter(getApplicationContext(), request_det, "tutor profile");
                             //to clear adapter
 
                             adapter.notifyDataSetChanged();
@@ -405,6 +417,8 @@ public class ViewRequestActivity extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
+        finish();
         return true;
     }
+
 }

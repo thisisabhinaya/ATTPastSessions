@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                                 //Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
 
                                 //getting the user from the response
-                                JSONObject userJson = obj.getJSONObject("user");
+                                final JSONObject userJson = obj.getJSONObject("user");
 
                                 //creating a new user object
                                 User user = new User(
@@ -158,6 +158,25 @@ public class MainActivity extends AppCompatActivity {
                                                          Log.e("p1", p1);
                                                          Log.e("p2", p2);
                                                          Log.e("p3", p3);
+
+                                                         //Set the preferences for Tutor side of this tutee/student
+                                                         // i.e make them a subscriber to these preferences
+                                                         FirebaseMessaging.getInstance().subscribeToTopic("/topics/"+p1);
+                                                         FirebaseMessaging.getInstance().subscribeToTopic("/topics/"+p2);
+                                                         FirebaseMessaging.getInstance().subscribeToTopic("/topics/"+p3);
+
+
+                                                         //starting the profile activity
+                                                         Intent in = new Intent(getApplicationContext(), StudentHomePage.class);
+                                                         try {
+                                                             in.putExtra("first_name",userJson.getString("first_name"));
+                                                             in.putExtra("email",userJson.getString("email"));
+                                                             startActivity(in);
+                                                             finish();
+                                                         } catch (JSONException e) {
+                                                             e.printStackTrace();
+                                                         }
+
                                                      }
                                                  }
                                              }
@@ -168,19 +187,6 @@ public class MainActivity extends AppCompatActivity {
 
                                             }
                                         });
-                                //Set the preferences for Tutor side of this tutee/student
-                                // i.e make them a subscriber to these preferences
-                                FirebaseMessaging.getInstance().subscribeToTopic("/topics/"+p1);
-                                FirebaseMessaging.getInstance().subscribeToTopic("/topics/"+p2);
-                                FirebaseMessaging.getInstance().subscribeToTopic("/topics/"+p3);
-
-
-                                //starting the profile activity
-                                finish();
-                                Intent in = new Intent(getApplicationContext(), StudentHomePage.class);
-                                in.putExtra("first_name",userJson.getString("first_name"));
-                                in.putExtra("email",userJson.getString("email"));
-                                startActivity(in);
                             } else {
                                 Toast.makeText(getApplicationContext(), obj.getString("error_msg"), Toast.LENGTH_SHORT).show();
                             }

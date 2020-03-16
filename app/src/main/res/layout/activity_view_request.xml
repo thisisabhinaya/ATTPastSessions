@@ -7,66 +7,81 @@
     tools:context=".ViewRequestActivity">
 
     <LinearLayout
-        android:id="@+id/choice"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/pref1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Pref1" />
-
-        <Button
-            android:id="@+id/pref2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Pref2" />
-
-        <Button
-            android:id="@+id/pref3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Pref3" />
-    </LinearLayout>
-
-    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_below="@+id/choice">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/your_req"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/choice"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Your Requests for Subject"
-            android:textSize="24sp"
-            tools:layout_editor_absoluteY="67dp" />
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/blank_requests"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="There are no session requests for this"
-            android:textSize="24sp"
-            tools:layout_editor_absoluteY="67dp"
-            android:visibility="gone"/>
+            <Button
+                android:id="@+id/pref1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#90D3D6"
+                android:textColor="@android:color/background_light"
+                android:text="Pref1" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+            <Button
+                android:id="@+id/pref2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#90D3D6"
+                android:textColor="@android:color/background_light"
+                android:text="Pref2"
+                />
+
+            <Button
+                android:id="@+id/pref3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#90D3D6"
+                android:textColor="@android:color/background_light"
+                android:text="Pref3"
+                />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="38dp"
-            android:scrollbars="vertical"
-            >
+            android:orientation="vertical">
 
-        </androidx.recyclerview.widget.RecyclerView>
+            <TextView
+                android:id="@+id/your_req"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:text="Your Requests for Subject"
+                android:textColor="#90D3D6"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                tools:layout_editor_absoluteY="67dp" />
+
+            <TextView
+                android:id="@+id/blank_requests"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="There are no session requests for this"
+                android:textSize="24sp"
+                android:visibility="gone"
+                tools:layout_editor_absoluteY="67dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:scrollbars="vertical">
+
+            </androidx.recyclerview.widget.RecyclerView>
+        </LinearLayout>
+
     </LinearLayout>
 
 </RelativeLayout>

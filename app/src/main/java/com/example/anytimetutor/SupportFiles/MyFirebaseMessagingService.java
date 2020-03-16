@@ -1,4 +1,4 @@
-package com.example.anytimetutor;
+package com.example.anytimetutor.SupportFiles;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -18,6 +18,8 @@ import android.util.Log;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
+import com.example.anytimetutor.R;
+import com.example.anytimetutor.ViewRequestActivity;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;

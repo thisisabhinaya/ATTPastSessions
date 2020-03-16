@@ -60,7 +60,7 @@ public class RequestDetailsActivity extends AppCompatActivity {
             reject.setEnabled(false);
             reject.setVisibility(View.GONE);
             accept.setText("ACCEPTED");
-            accept.setBackgroundColor(Color.GREEN);
+            accept.setBackgroundColor(Color.parseColor("#7EDA82"));
             reject.setBackgroundColor(Color.GRAY);
         } else if(accept_stat.equals("rejected"))
         {
@@ -68,7 +68,7 @@ public class RequestDetailsActivity extends AppCompatActivity {
             reject.setEnabled(false);
             reject.setText("REJECTED");
             accept.setVisibility(View.GONE);
-            reject.setBackgroundColor(Color.RED);
+            reject.setBackgroundColor(Color.parseColor("#DD8EA8"));
             accept.setBackgroundColor(Color.GRAY);
         }
 
@@ -165,8 +165,18 @@ public class RequestDetailsActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        Intent intent = new Intent(getApplicationContext(), StudentHomePage.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
+    @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
+        finish();
         return true;
     }
 }

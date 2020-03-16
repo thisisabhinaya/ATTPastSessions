@@ -16,12 +16,13 @@
         android:roundIcon="@mipmap/ic_app_icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TanviProfileActivity"></activity>
+        <activity android:name=".TimerActivity"></activity>
+        <activity android:name=".TanviProfileActivity" />
         <activity android:name=".RequestDetailsActivity" />
         <activity android:name=".ViewRequestActivity" />
 
         <service
-            android:name=".MyFirebaseMessagingService"
+            android:name=".SupportFiles.MyFirebaseMessagingService"
             android:enabled="true"
             android:exported="true"
             android:permission="com.google.android.c2dm.permission.SEND">
@@ -33,7 +34,7 @@
 
         <activity
             android:name=".EditTutorProfileActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ScannerActivity"
             android:screenOrientation="portrait" />

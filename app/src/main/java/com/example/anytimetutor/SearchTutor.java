@@ -4,9 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -71,6 +73,8 @@ public class SearchTutor extends AppCompatActivity {
     String NOTIFICATION_TITLE;
     String NOTIFICATION_MESSAGE, NOTIFICATION_ID;
     String TOPIC;
+
+    public ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -280,6 +284,8 @@ public class SearchTutor extends AppCompatActivity {
                 Timestamp ts = new Timestamp(c_t);
                 System.out.println("Current Time Stamp: "+ts);
 
+                showProgressDialog();
+
                 final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
                 Map<String, Object> req = new HashMap<>();
@@ -300,9 +306,6 @@ public class SearchTutor extends AppCompatActivity {
                 datetimestr=datestr+timestr;
                 Log.e("datetimestr",datetimestr);
                 req.put("date_time", datetimestr);
-
-
-
 
                 db.collection("subscribers")
                         .document(subject)
@@ -361,11 +364,15 @@ public class SearchTutor extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.i(TAG, "onResponse: " + response.toString());
+                        hideProgressDialog();
                         if(subject.equals(p1) || subject.equals(p2) || subject.equals(p3))
                         {
                             FirebaseMessaging.getInstance().subscribeToTopic("/topics/"+subject.replaceAll(" ",""));
                         }
                         Toast.makeText(SearchTutor.this, "Request sent successfully!", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(getApplicationContext(), StudentHomePage.class);
+                        finish();
+                        startActivity(intent);
                     }
                 },
                 new Response.ErrorListener() {
@@ -399,9 +406,37 @@ public class SearchTutor extends AppCompatActivity {
         e_date.setText(sdf.format(myCalendar.getTime()));
     }
 
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(SearchTutor.this);
+            mProgressDialog.setMessage("Loading ...");
+            mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setCancelable(false);
+        }
+
+        mProgressDialog.show();
+    }
+
+
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        Intent intent = new Intent(getApplicationContext(), StudentHomePage.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
+        finish();
         return true;
     }
 }

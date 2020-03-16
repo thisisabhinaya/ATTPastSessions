@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -64,6 +65,55 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/textView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:text="Pending requests"
+                android:textAlignment="center"
+                android:textColor="#90D3D6"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/blank_requests"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:textAlignment="center"
+                android:textColor="#90D3D6"
+                android:textSize="20dp"
+                android:text="You have no pending requests..."
+                android:visibility="gone"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview1"
+                android:scrollbars="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:text="Upcoming sessions"
+                android:textAlignment="center"
+                android:textColor="#90D3D6"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview2"
+                android:scrollbars="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
                 android:id="@+id/textView9"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -76,7 +126,7 @@
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="175dp">
+                android:layout_height="150dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -211,7 +261,7 @@
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="175dp">
+                android:layout_height="150dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"

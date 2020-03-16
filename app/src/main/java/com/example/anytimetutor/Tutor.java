@@ -1,28 +1,32 @@
 package com.example.anytimetutor;
 
 public class Tutor {
-    private int id;
-    private String title;
-    private String shortdesc;
-    private double rating;
-    private double price;
-    private int image;
 
-    public Tutor(int id, String title, String shortdesc, double rating, double price, int image) {
-        this.id = id;
-        this.title = title;
+    private String sap_id, name, subject;
+    private String shortdesc;
+    private double rating, credit_score;
+    private int sess_count;
+
+    public Tutor(String id, String name, String subject, String shortdesc, double rating, double credit, int sess_count) {
+        this.sap_id = id;
+        this.name = name;
+        this.subject = subject;
         this.shortdesc = shortdesc;
         this.rating = rating;
-        this.price = price;
-        this.image = image;
+        this.sess_count = sess_count;
+        this.credit_score = credit;
     }
 
-    public int getId() {
-        return id;
+    public String getId() {
+        return sap_id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
+    }
+
+    public String getSubject() {
+        return subject;
     }
 
     public String getShortdesc() {
@@ -33,11 +37,11 @@ public class Tutor {
         return rating;
     }
 
-    public double getPrice() {
-        return price;
+    public double getCreditScore() {
+        return credit_score;
     }
 
-    public int getImage() {
-        return image;
+    public int getSessCount() {
+        return sess_count;
     }
 }
