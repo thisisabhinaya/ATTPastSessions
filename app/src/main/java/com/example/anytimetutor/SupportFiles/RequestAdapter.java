@@ -62,16 +62,19 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
     @Override
     public void onBindViewHolder(RequestViewHolder holder, final int position) {
 
-        //binding the data with the viewholder views
-        holder.topic.setText(topic.get(position));
-        holder.tutee_name.setText(tutee_name.get(position));
-        holder.sess_date.setText(sess_date.get(position));
-        holder.sess_time.setText(sess_time.get(position));
-        holder.sess_status.setText(sess_status.get(position));
-        holder.id.setText(req_id.get(position));
-        holder.subject.setText(subject.get(position));
+        /* Trying to move holder to each condition type so that in else condition for session history/past sessions,
+        dont have to add unnecessary items in adapter
+        * *///binding the data with the viewholder views
 
         if(activity.equals("tutor profile")) {
+            holder.topic.setText(topic.get(position));
+            holder.tutee_name.setText(tutee_name.get(position));
+            holder.sess_date.setText(sess_date.get(position));
+            holder.sess_time.setText(sess_time.get(position));
+            holder.sess_status.setText(sess_status.get(position));
+            holder.id.setText(req_id.get(position));
+            holder.subject.setText(subject.get(position));
+
             if (accept_stat.get(position).equals("accepted")) {
                 holder.request.setCardBackgroundColor(Color.parseColor("#7EDA82"));
             } else if (accept_stat.get(position).equals("rejected")) {
@@ -90,7 +93,14 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
             });
         }
         else if(activity.equals("home"))
-        {
+        {holder.topic.setText(topic.get(position));
+            holder.tutee_name.setText(tutee_name.get(position));
+            holder.sess_date.setText(sess_date.get(position));
+            holder.sess_time.setText(sess_time.get(position));
+            holder.sess_status.setText(sess_status.get(position));
+            holder.id.setText(req_id.get(position));
+            holder.subject.setText(subject.get(position));
+
             holder.request.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -102,6 +112,26 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
                     mCtx.startActivity(in);
                 }
             });
+        }
+        else if (activity.equals("past sessions"))
+        {
+            holder.topic.setText(topic.get(position));
+            holder.sess_date.setText(sess_date.get(position));
+            holder.sess_time.setText(sess_time.get(position));
+            holder.id.setText(req_id.get(position));
+            holder.subject.setText(subject.get(position));
+
+            holder.request.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LayoutInflater inflater = LayoutInflater.from(mCtx);
+                    View view;
+                        view = inflater.inflate(R.layout.request_card, null);
+
+                }
+            });
+
+
         }
 
     }

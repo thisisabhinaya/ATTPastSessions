@@ -60,7 +60,7 @@ public class RequestDetailsActivity extends AppCompatActivity {
             reject.setEnabled(false);
             reject.setVisibility(View.GONE);
             accept.setText("ACCEPTED");
-            accept.setBackgroundColor(Color.parseColor("#7EDA82"));
+            accept.setBackgroundColor(Color.parseColor("#7EDA82"));//green
             reject.setBackgroundColor(Color.GRAY);
         } else if(accept_stat.equals("rejected"))
         {
@@ -68,9 +68,18 @@ public class RequestDetailsActivity extends AppCompatActivity {
             reject.setEnabled(false);
             reject.setText("REJECTED");
             accept.setVisibility(View.GONE);
-            reject.setBackgroundColor(Color.parseColor("#DD8EA8"));
+            reject.setBackgroundColor(Color.parseColor("#DD8EA8"));//red
             accept.setBackgroundColor(Color.GRAY);
-        }
+        }/*
+        else if(accept_stat.equals("completed"))
+        {
+            accept.setEnabled(false);
+            reject.setEnabled(false);
+            reject.setText("COMPLETED");
+            accept.setVisibility(View.GONE);
+            reject.setBackgroundColor(Color.parseColor("#DD8EA8"));//red
+            accept.setBackgroundColor(Color.GRAY);
+        }*/
 
         final User user = SharedPrefManager.getInstance(getApplicationContext()).getUser();
         final String stud_id = user.getId();
@@ -168,7 +177,7 @@ public class RequestDetailsActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
-        Intent intent = new Intent(getApplicationContext(), StudentHomePage.class);
+        Intent intent = new Intent(getApplicationContext(), ViewRequestActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }

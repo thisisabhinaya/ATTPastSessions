@@ -9,6 +9,8 @@
 
     <item android:title="Tutor Profile" android:icon="@drawable/tutor_profile_icon" android:id="@+id/nav_gallery"/>
 
+    <item android:title="Past Sessions" android:icon="@drawable/tutor_profile_icon" android:id="@+id/nav_sess"/>
+
     <item android:title="Account Details" android:icon="@drawable/account_settings_icon" android:id="@+id/nav_slideshow"/>
 
     <item android:title="FAQ" android:icon="@drawable/faq_icon" android:id="@+id/nav_share"/>

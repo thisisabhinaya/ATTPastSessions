@@ -18,6 +18,12 @@
         tools:layout="@layout/fragment_tutor_profile" />
 
     <fragment
+        android:id="@+id/nav_sess"
+        android:name="com.example.anytimetutor.ui.sessionhistory.SessionHistory"
+        android:label="Your Past Sessions"
+        tools:layout="@layout/session_history_fragment" />
+
+    <fragment
         android:id="@+id/nav_slideshow"
         android:name="com.example.anytimetutor.ui.account_detail.AccountDetailFragment"
         android:label="Account Details"
